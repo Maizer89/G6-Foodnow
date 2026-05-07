@@ -1,7 +1,6 @@
 # Gruppkontrakt – [Grupp 6 / FE25-KYH]
 
-> Senast uppdaterat: [2026-05-07]  
-> Alla i gruppen har läst och godkänt
+> Senast uppdaterat: [2026-05-07]
 
 ---
 
