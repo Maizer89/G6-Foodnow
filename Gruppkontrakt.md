@@ -56,6 +56,6 @@ Vi har läst detta kontrakt och committerar oss till att följa det tills vi gem
 | Namn            | Datum    | Signatur / OK |
 | --------------- | -------- | ------------- |
 | Rasmus Billgren | 07/05-26 |               |
-|                 |          |               |
+| Ameer Shameel   | 07/05-26 | OK            |
 |                 |          |               |
 |                 |          |               |
