@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recepts",
+  "info": {
+    "singularName": "recept",
+    "pluralName": "recepts",
+    "displayName": "Recept"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "text"
+    }
+  }
+}
