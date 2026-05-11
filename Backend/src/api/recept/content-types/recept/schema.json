@@ -16,6 +16,34 @@
     },
     "Description": {
       "type": "text"
+    },
+    "Instructions": {
+      "type": "blocks"
+    },
+    "CookingTime": {
+      "type": "integer"
+    },
+    "Image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "ingredients": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::ingredient.ingredient",
+      "mappedBy": "recepts"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "recepts"
     }
   }
 }
