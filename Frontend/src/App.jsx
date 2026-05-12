@@ -1,11 +1,15 @@
 import Header from "./partials/Header";
-import Footer from "./partials/Footer";
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router-dom";
 
 export default function App() {
-  return <>
-    <Header />
-    <main><Outlet /></main>
-    <Footer />
-  </>;
+  return (
+    <>
+      <div className="app">
+        <Header />
+        <main className="main">
+          <Outlet />
+        </main>
+      </div>
+    </>
+  );
 }

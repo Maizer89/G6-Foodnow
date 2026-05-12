@@ -1,23 +1,30 @@
-import { NavLink } from 'react-router-dom'
-import routes from '../routes.jsx'
+import { NavLink } from "react-router-dom";
+import routes from "../routes.jsx";
 
 export default function Header() {
   return (
-    <header>
-      <nav>
-        <ul>
-          {routes.map(({ path, label }) => (
-            <li key={path}>
+    <aside className="sidebar">
+      <div>
+        <div className="logo">FoodNow</div>
+
+        <nav className="nav">
+          {routes
+            .filter((route) => !route.hidden)
+            .map(({ path, label }) => (
               <NavLink
+                key={path}
                 to={path}
-                className={({ isActive }) => (isActive ? 'active' : '')}
+                className={({ isActive }) =>
+                  isActive ? "nav-item active" : "nav-item"
+                }
               >
                 {label}
               </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </header>
-  )
+            ))}
+        </nav>
+      </div>
+
+      <div className="sidebar-card">Hitta recept med det du har hemma</div>
+    </aside>
+  );
 }
