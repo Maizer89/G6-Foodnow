@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 LoginPage.route = {
   path: "/login",
@@ -10,6 +11,7 @@ LoginPage.route = {
 function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -26,6 +28,12 @@ function LoginPage() {
     });
 
     const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem("jwt", data.jwt);
+
+      navigate("/profile");
+    }
   }
 
   return (
