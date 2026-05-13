@@ -1,5 +1,5 @@
 Recept.route = {
-  path: '/',
+  path: '/recept',
   label: 'Recept',
   index: 0,
 }
