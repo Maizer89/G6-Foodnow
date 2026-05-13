@@ -15,11 +15,11 @@ export default function Header() {
             .filter((route) => {
               if (route.hidden) return false;
 
-              if (route.path === "/login" && isLoggedIn) {
+              if (route.guestOnly && isLoggedIn) {
                 return false;
               }
 
-              if (route.path === "/profile" && !isLoggedIn) {
+              if (route.authOnly && !isLoggedIn) {
                 return false;
               }
 

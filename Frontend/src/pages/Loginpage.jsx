@@ -6,7 +6,8 @@ import { useAuth } from "../context/AuthContext";
 LoginPage.route = {
   path: "/login",
   label: "Logga in",
-  index: 3,
+  guestOnly: true,
+  index: 10,
 };
 
 function LoginPage() {
@@ -34,7 +35,7 @@ function LoginPage() {
     if (response.ok) {
       login(data.jwt);
 
-      navigate("/profile");
+      navigate("/recept");
     }
   }
 
