@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 LoginPage.route = {
   path: "/login",
-  label: "Login",
+  label: "Logga in",
   index: 3,
 };
 
@@ -26,28 +26,45 @@ function LoginPage() {
     });
 
     const data = await response.json();
-
-    console.log(data);
   }
 
   return (
-    <form onSubmit={handleLogin}>
-      <input
-        type="text"
-        placeholder="E-post eller användarnamn"
-        value={identifier}
-        onChange={(e) => setIdentifier(e.target.value)}
-      />
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-header">
+          <h1 className="auth-title">Logga in</h1>
 
-      <input
-        type="password"
-        placeholder="Lösenord"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+          <p className="auth-subtitle">Välkommen tillbaka till FoodNow.</p>
+        </div>
 
-      <button>Logga in</button>
-    </form>
+        <form className="auth-form" onSubmit={handleLogin}>
+          <input
+            className="search-input"
+            type="text"
+            placeholder="E-post eller användarnamn"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+          />
+
+          <input
+            className="search-input"
+            type="password"
+            placeholder="Lösenord"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button className="primary-btn">Logga in</button>
+        </form>
+
+        <div className="auth-footer">
+          Har inget konto?{" "}
+          <Link to="/register" className="auth-link">
+            Skapa konto
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
 
