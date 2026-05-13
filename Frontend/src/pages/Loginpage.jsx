@@ -1,18 +1,54 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-Login.route = {
+LoginPage.route = {
   path: "/login",
   label: "Login",
   index: 3,
 };
 
-export default function Login() {
+function LoginPage() {
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleLogin(e) {
+    e.preventDefault();
+
+    const response = await fetch("http://localhost:1337/api/auth/local", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        identifier,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+  }
+
   return (
-    <div className="auth-footer">
-      Har inget konto?{" "}
-      <Link to="/register" className="auth-link">
-        Skapa konto
-      </Link>
-    </div>
+    <form onSubmit={handleLogin}>
+      <input
+        type="text"
+        placeholder="E-post eller användarnamn"
+        value={identifier}
+        onChange={(e) => setIdentifier(e.target.value)}
+      />
+
+      <input
+        type="password"
+        placeholder="Lösenord"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button>Logga in</button>
+    </form>
   );
 }
+
+export default LoginPage;
