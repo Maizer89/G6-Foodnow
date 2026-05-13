@@ -38,6 +38,8 @@ function RegisterPage() {
           <h1 className="auth-title">Skapa konto</h1>
 
           <p className="auth-subtitle">
+            Välkommen till FoodNow
+            <br />
             Registrera dig för att spara och skapa egna recept.
           </p>
         </div>
