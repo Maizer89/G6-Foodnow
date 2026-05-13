@@ -1,17 +1,18 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 ProfilePage.route = {
-  path: "profile",
+  path: "/profile",
   label: "Min Profil",
-  index: 4,
+  authOnly: true,
 };
 
 function ProfilePage() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   function handleLogout() {
-    localStorage.removeItem("jwt");
-
+    logout();
     navigate("/login");
   }
 
