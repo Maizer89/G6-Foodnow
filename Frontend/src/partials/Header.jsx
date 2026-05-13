@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
 import routes from "../routes.jsx";
+import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
-  const isLoggedIn = !!localStorage.getItem("jwt");
+  const { isLoggedIn } = useAuth();
 
   return (
     <aside className="sidebar">
