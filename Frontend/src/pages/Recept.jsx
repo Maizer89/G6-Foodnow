@@ -1,7 +1,7 @@
 Recept.route = {
-  path: '/recept',
+  path: '/',
   label: 'Recept',
-  index: 1,
+  index: 0,
 }
 
 export default function Recept() {
