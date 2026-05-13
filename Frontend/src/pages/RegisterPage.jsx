@@ -44,10 +44,29 @@ function RegisterPage() {
           </p>
         </div>
 
-        <form className="auth-form">
-          <input className="search-input" placeholder="Användarnamn" />
-          <input className="search-input" placeholder="Email" />
-          <input className="search-input" placeholder="Lösenord" />
+        <form className="auth-form" onSubmit={handleRegister}>
+          <input
+            className="search-input"
+            placeholder="Användarnamn"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+
+          <input
+            className="search-input"
+            placeholder="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            className="search-input"
+            placeholder="Lösenord"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
           <button className="primary-btn">Skapa konto</button>
         </form>
