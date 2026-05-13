@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import routes from "../routes.jsx";
 
 export default function Header() {
+  const isLoggedIn = !!localStorage.getItem("jwt");
+
   return (
     <aside className="sidebar">
       <div>
@@ -9,7 +11,19 @@ export default function Header() {
 
         <nav className="nav">
           {routes
-            .filter((route) => !route.hidden)
+            .filter((route) => {
+              if (route.hidden) return false;
+
+              if (route.path === "/login" && isLoggedIn) {
+                return false;
+              }
+
+              if (route.path === "/profile" && !isLoggedIn) {
+                return false;
+              }
+
+              return true;
+            })
             .map(({ path, label }) => (
               <NavLink
                 key={path}
