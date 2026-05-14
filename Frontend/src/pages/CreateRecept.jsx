@@ -4,7 +4,7 @@ import "../css/CreateRecept.css";
 CreateRecept.route = {
   path: "/create-recept",
   label: "Skapa Recept",
-  index: 2,
+  hidden: true,
 };
 
 function CreateRecept() {

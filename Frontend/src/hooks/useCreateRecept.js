@@ -148,37 +148,75 @@ export function useCreateRecept() {
     }
 
     try {
+      const checkRes = await fetch(
+        `${API_URL}/api/recepts?filters[Title][$eqi]=${encodeURIComponent(normalizedTitle)}`
+      );
+      if (checkRes.ok) {
+        const checkData = await checkRes.json();
+        if (checkData.data && checkData.data.length > 0) {
+          setError(`Ett recept med titeln "${normalizedTitle}" finns redan.`);
+          return;
+        }
+      }
+
       const formData = new FormData();
+
+      const storedUser = localStorage.getItem("user");
+      const currentUser = storedUser ? JSON.parse(storedUser) : null;
 
       const dataObj = {
         Title: normalizedTitle,
         Description: normalizedDescription,
-        Instructions: normalizedInstructions,
+        Instructions: [
+          {
+            type: "paragraph",
+            children: [{ type: "text", text: normalizedInstructions }]
+          }
+        ],
         CookingTime: parsedCookingTime,
         ingredients: selectedIngredients,
+        // users_permissions_user kopplas server-side av backend-controllern
       };
 
-      formData.append("data", JSON.stringify(dataObj));
-
-      if (images && images.length > 0) {
-        images.forEach((f) => {
-          formData.append("files.Image", f, f.name);
-        });
-      }
-
-      const response = await fetch(`${API_URL}/api/recipes`, {
+      const response = await fetch(`${API_URL}/api/recepts`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: formData,
+        body: JSON.stringify({ data: dataObj }),
       });
 
       if (!response.ok) {
-        throw new Error("Något gick fel när receptet skulle sparas.");
+        const errBody = await response.json().catch(() => ({}));
+        console.error("Strapi fel create:", errBody);
+        throw new Error(errBody?.error?.message ?? "Något gick fel när receptet skulle sparas.");
       }
 
-      await response.json();
+      const created = await response.json();
+      const entryId = created.data?.id;
+
+      if (images && images.length > 0 && entryId) {
+        const uploadForm = new FormData();
+        uploadForm.append("ref", "api::recept.recept");
+        uploadForm.append("refId", String(entryId));
+        uploadForm.append("field", "Image");
+        uploadForm.append("files", images[0], images[0].name);
+
+        const uploadRes = await fetch(`${API_URL}/api/upload`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: uploadForm,
+        });
+
+        if (!uploadRes.ok) {
+          const errBody = await uploadRes.json().catch(() => ({}));
+          console.error("Strapi fel (upload):", errBody);
+          // Receptet skapades men bild-uppladdning misslyckades – visa varning men fortsätt
+          throw new Error("Receptet sparades men bilden kunde inte laddas upp. Kontrollera behörigheter för uppladdning i Strapi.");
+        }
+      }
+
 
       setSuccess(true);
 
