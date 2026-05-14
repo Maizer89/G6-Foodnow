@@ -161,6 +161,9 @@ export function useCreateRecept() {
 
       const formData = new FormData();
 
+      const storedUser = localStorage.getItem("user");
+      const currentUser = storedUser ? JSON.parse(storedUser) : null;
+
       const dataObj = {
         Title: normalizedTitle,
         Description: normalizedDescription,
@@ -172,6 +175,7 @@ export function useCreateRecept() {
         ],
         CookingTime: parsedCookingTime,
         ingredients: selectedIngredients,
+        // users_permissions_user kopplas server-side av backend-controllern
       };
 
       const response = await fetch(`${API_URL}/api/recepts`, {
