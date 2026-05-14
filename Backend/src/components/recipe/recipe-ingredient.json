@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_recipe_recipe_ingredients",
+  "info": {
+    "displayName": "Recipe Ingredient",
+    "icon": "restaurant"
+  },
+  "options": {},
+  "attributes": {
+    "amount": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "ingredient": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ingredient.ingredient"
+    }
+  },
+  "config": {}
+}

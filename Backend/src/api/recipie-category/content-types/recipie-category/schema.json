@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recipie_categories",
+  "info": {
+    "singularName": "recipie-category",
+    "pluralName": "recipie-categories",
+    "displayName": "Recipie Category"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "recipes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::recipe.recipe",
+      "mappedBy": "recipie_category"
+    }
+  }
+}

@@ -11,23 +11,18 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Name": {
+    "name_singular": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "name_plural": {
       "type": "string"
     },
-    "Category": {
-      "type": "enumeration",
-      "enum": [
-        "Mejeri",
-        "Grönsaker",
-        "Kött/Fisk",
-        "Torrvaror",
-        "Kryddor"
-      ]
-    },
-    "recepts": {
+    "ingredient_category": {
       "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::recept.recept",
+      "relation": "manyToOne",
+      "target": "api::ingredient-category.ingredient-category",
       "inversedBy": "ingredients"
     }
   }

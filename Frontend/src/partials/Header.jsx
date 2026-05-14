@@ -1,9 +1,16 @@
 import { NavLink } from "react-router-dom";
 import routes from "../routes.jsx";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    logout();
+    navigate("/login");
+  }
 
   return (
     <aside className="sidebar">
@@ -39,7 +46,14 @@ export default function Header() {
         </nav>
       </div>
 
-      <div className="sidebar-card">Hitta recept med det du har hemma</div>
+      <div className="sidebar-bottom">
+        {isLoggedIn && (
+          <button className="primary-btn logout-btn" onClick={handleLogout}>
+            Logga ut
+          </button>
+        )}
+        <div className="sidebar-card">Hitta recept med det du har hemma</div>
+      </div>
     </aside>
   );
 }

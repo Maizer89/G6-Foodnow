@@ -65,12 +65,6 @@
       "target": "plugin::users-permissions.role",
       "inversedBy": "users",
       "configurable": false
-    },
-    "recepts": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::recept.recept",
-      "mappedBy": "users_permissions_user"
     }
   }
 }
