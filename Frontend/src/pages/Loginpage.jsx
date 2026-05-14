@@ -33,9 +33,9 @@ function LoginPage() {
     const data = await response.json();
 
     if (response.ok) {
-      login(data.jwt);
+      login(data.jwt, data.user);
 
-      navigate("/recept");
+      navigate("/");
     }
   }
 
