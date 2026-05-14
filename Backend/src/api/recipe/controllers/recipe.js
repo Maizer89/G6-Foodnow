@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * recept controller
+ * recipe controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::recept.recept');
+module.exports = createCoreController('api::recipe.recipe');

@@ -16,19 +16,14 @@
       "required": true,
       "unique": true
     },
-    "recepts": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::recept.recept",
-      "inversedBy": "ingredients"
-    },
     "name_plural": {
       "type": "string"
     },
     "ingredient_category": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::ingredient-category.ingredient-category"
+      "relation": "manyToOne",
+      "target": "api::ingredient-category.ingredient-category",
+      "inversedBy": "ingredients"
     }
   }
 }

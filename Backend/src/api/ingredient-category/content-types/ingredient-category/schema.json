@@ -20,6 +20,12 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "ingredients": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ingredient.ingredient",
+      "mappedBy": "ingredient_category"
     }
   }
 }

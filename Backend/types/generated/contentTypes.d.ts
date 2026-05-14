@@ -440,6 +440,42 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiIngredientCategoryIngredientCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'ingredient_categories';
+  info: {
+    displayName: 'Ingredient Category';
+    pluralName: 'ingredient-categories';
+    singularName: 'ingredient-category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    ingredients: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ingredient.ingredient'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ingredient-category.ingredient-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiIngredientIngredient extends Struct.CollectionTypeSchema {
   collectionName: 'ingredients';
   info: {
@@ -451,64 +487,98 @@ export interface ApiIngredientIngredient extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    Category: Schema.Attribute.Enumeration<
-      ['Mejeri', 'Gr\u00F6nsaker', 'K\u00F6tt/Fisk', 'Torrvaror', 'Kryddor']
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    ingredient_category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::ingredient-category.ingredient-category'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::ingredient.ingredient'
     > &
       Schema.Attribute.Private;
-    Name: Schema.Attribute.String;
+    name_plural: Schema.Attribute.String;
+    name_singular: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
-    recepts: Schema.Attribute.Relation<'manyToMany', 'api::recept.recept'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
   };
 }
 
-export interface ApiReceptRecept extends Struct.CollectionTypeSchema {
-  collectionName: 'recepts';
+export interface ApiRecipeRecipe extends Struct.CollectionTypeSchema {
+  collectionName: 'recipes';
   info: {
-    displayName: 'Recept';
-    pluralName: 'recepts';
-    singularName: 'recept';
+    displayName: 'Recipe';
+    pluralName: 'recipes';
+    singularName: 'recipe';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    CookingTime: Schema.Attribute.Integer;
+    cooking_time_minutes: Schema.Attribute.Integer;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    Description: Schema.Attribute.Text;
-    Image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    ingredients: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::ingredient.ingredient'
-    >;
-    Instructions: Schema.Attribute.Blocks;
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    ingredients: Schema.Attribute.Component<'recipe.recipe-ingredient', true>;
+    instructions: Schema.Attribute.Blocks;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::recept.recept'
+      'api::recipe.recipe'
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    Title: Schema.Attribute.String;
+    recipie_category: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::recipie-category.recipie-category'
+    >;
+    slug: Schema.Attribute.UID<'title'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
+  };
+}
+
+export interface ApiRecipieCategoryRecipieCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'recipie_categories';
+  info: {
+    displayName: 'Recipie Category';
+    pluralName: 'recipie-categories';
+    singularName: 'recipie-category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::recipie-category.recipie-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    recipes: Schema.Attribute.Relation<'oneToMany', 'api::recipe.recipe'>;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -994,7 +1064,6 @@ export interface PluginUsersPermissionsUser
       }>;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    recepts: Schema.Attribute.Relation<'oneToMany', 'api::recept.recept'>;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
     role: Schema.Attribute.Relation<
       'manyToOne',
@@ -1023,8 +1092,10 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::ingredient-category.ingredient-category': ApiIngredientCategoryIngredientCategory;
       'api::ingredient.ingredient': ApiIngredientIngredient;
-      'api::recept.recept': ApiReceptRecept;
+      'api::recipe.recipe': ApiRecipeRecipe;
+      'api::recipie-category.recipie-category': ApiRecipieCategoryRecipieCategory;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
