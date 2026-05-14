@@ -65,7 +65,12 @@ function ProfilePage() {
         <div className="settings-card">
           <div className="settings-item">
             <span>Mina recept</span>
-            <button className="secondary-btn">Visa</button>
+            <button className="secondary-btn" onClick={() => navigate("/my-recept")}>Visa</button>
+          </div>
+
+          <div className="settings-item">
+            <span>Skapa recept</span>
+            <button className="secondary-btn" onClick={() => navigate("/create-recept")}>Skapa</button>
           </div>
 
           <div className="settings-item">
