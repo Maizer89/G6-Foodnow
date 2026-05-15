@@ -153,9 +153,9 @@ function CreateRecept() {
               : ingredientsList.slice(0, 8)
             ).map((ingredient, idx) => {
               const name =
-                ingredient?.attributes?.Name ??
-                ingredient?.attributes?.name ??
-                ingredient?.Name ??
+                ingredient?.name_singular ??
+                ingredient?.name_plural ??
+                ingredient?.name ??
                 "Okänd ingrediens";
               const id = ingredient?.id ?? idx;
 
