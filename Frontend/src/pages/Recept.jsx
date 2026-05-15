@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import IngredientFilter from "../components/IngredientFilter";
 
 Recept.route = {
   path: "/",
@@ -58,19 +59,7 @@ function Recept() {
           +
         </button>
       </div>
-
-      <div className="filters">
-        <div className="filter-group">
-          <button className="filter-btn">Snabbt</button>
-          <button className="filter-btn">Pasta</button>
-          <button className="filter-btn">Kött</button>
-          <button className="filter-btn">Kyckling</button>
-          <button className="filter-btn">Vegetariskt</button>
-        </div>
-
-        <button className="sort-btn">Mest relevanta</button>
-      </div>
-
+      <IngredientFilter />
       <div className="recipe-count">
         {filteredRecipes.length} recept hittades
       </div>
