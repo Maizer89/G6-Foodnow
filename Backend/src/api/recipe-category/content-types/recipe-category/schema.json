@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "recipie_categories",
+  "collectionName": "recipe_categories",
   "info": {
-    "singularName": "recipie-category",
-    "pluralName": "recipie-categories",
-    "displayName": "Recipie Category"
+    "singularName": "recipe-category",
+    "pluralName": "recipe-categories",
+    "displayName": "Recipe Category"
   },
   "options": {
     "draftAndPublish": true
@@ -25,7 +25,7 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::recipe.recipe",
-      "mappedBy": "recipie_category"
+      "mappedBy": "recipe_category"
     }
   }
 }
