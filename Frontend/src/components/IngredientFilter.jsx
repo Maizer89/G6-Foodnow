@@ -15,6 +15,8 @@ export default function IngredientFilter() {
 
         const data = await response.json();
 
+        console.log(data.data);
+
         setIngredients(data.data);
       } catch (error) {
         console.log(error);
@@ -27,7 +29,7 @@ export default function IngredientFilter() {
   // Filtrera medan användaren skriver
   const filteredIngredients = useMemo(() => {
     return ingredients.filter((ingredient) =>
-      ingredient.name
+      ingredient.name_singular
         ?.toLowerCase()
         .includes(search.toLowerCase())
     );
@@ -44,7 +46,6 @@ export default function IngredientFilter() {
 
   return (
     <>
-      {/* Search */}
       <div className="search-row">
         <input
           type="text"
@@ -57,7 +58,6 @@ export default function IngredientFilter() {
         <button className="add-btn">+</button>
       </div>
 
-      {/* Ingredient list */}
       <div
         style={{
           background: "var(--surface)",
@@ -83,19 +83,20 @@ export default function IngredientFilter() {
             <input
               type="checkbox"
               checked={selectedIngredients.includes(
-                ingredient.name
+                ingredient.name_singular
               )}
               onChange={() =>
-                toggleIngredient(ingredient.name)
+                toggleIngredient(
+                  ingredient.name_singular
+                )
               }
             />
 
-            {ingredient.name}
+            {ingredient.name_singular}
           </label>
         ))}
       </div>
 
-      {/* Selected ingredients */}
       <div className="ingredients">
         {selectedIngredients.map((ingredient) => (
           <div className="chip" key={ingredient}>
