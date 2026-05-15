@@ -1,3 +1,5 @@
+import IngredientFilter from "../components/IngredientFilter";
+
 Recept.route = {
   path: '/',
   label: 'Recept',
@@ -7,8 +9,17 @@ Recept.route = {
 export default function Recept() {
   return (
     <main>
-      <h1>Recept</h1>
-      <p>Alla recept visas här.</p>
+      <div className="page-header">
+        <h1 className="page-title">
+          Vad vill du laga?
+        </h1>
+
+        <p className="page-subtitle">
+          Lägg till ingredienser du har hemma.
+        </p>
+      </div>
+
+      <IngredientFilter />
     </main>
-  )
+  );
 }
