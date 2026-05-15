@@ -154,30 +154,54 @@ const recipesData = [
 async function seed(strapi) {
   console.log("Startar seed...");
 
+  const ingredientMap = {};
+
   // =====================
   // INGREDIENTS
   // =====================
 
-  const ingredientMap = {};
-
   for (const ingredient of ingredientsData) {
-    const createdIngredient =
-      await strapi.entityService.create(
+    const existingIngredients =
+      await strapi.entityService.findMany(
         "api::ingredient.ingredient",
         {
-          data: {
-            ...ingredient,
-            publishedAt: new Date(),
+          filters: {
+            name_singular:
+              ingredient.name_singular,
           },
         }
       );
 
-    ingredientMap[ingredient.name_singular] =
-      createdIngredient.id;
+    let ingredientId;
 
-    console.log(
-      `Ingrediens skapad: ${ingredient.name_singular}`
-    );
+    if (existingIngredients.length > 0) {
+      ingredientId =
+        existingIngredients[0].id;
+
+      console.log(
+        `Ingrediens finns redan: ${ingredient.name_singular}`
+      );
+    } else {
+      const createdIngredient =
+        await strapi.entityService.create(
+          "api::ingredient.ingredient",
+          {
+            data: {
+              ...ingredient,
+              publishedAt: new Date(),
+            },
+          }
+        );
+
+      ingredientId = createdIngredient.id;
+
+      console.log(
+        `Ingrediens skapad: ${ingredient.name_singular}`
+      );
+    }
+
+    ingredientMap[ingredient.name_singular] =
+      ingredientId;
   }
 
   // =====================
@@ -194,6 +218,24 @@ async function seed(strapi) {
         ingredient:
           ingredientMap[item.ingredient],
       }));
+
+    const existingRecipe =
+      await strapi.entityService.findMany(
+        "api::recipe.recipe",
+        {
+          filters: {
+            title: recipe.title,
+          },
+        }
+      );
+
+    if (existingRecipe.length > 0) {
+      console.log(
+        `Recept finns redan: ${recipe.title}`
+      );
+
+      continue;
+    }
 
     await strapi.entityService.create(
       "api::recipe.recipe",

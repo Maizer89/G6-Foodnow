@@ -28,12 +28,12 @@ export default function IngredientFilter() {
 
   // Filtrera medan användaren skriver
   const filteredIngredients = useMemo(() => {
-    return ingredients.filter((ingredient) =>
-      ingredient.name_singular
-        ?.toLowerCase()
-        .includes(search.toLowerCase())
-    );
-  }, [ingredients, search]);
+  return (ingredients ?? []).filter((ingredient) =>
+    ingredient.name_singular
+      ?.toLowerCase()
+      .includes(search.toLowerCase())
+  );
+}, [ingredients, search]);
 
   // Lägg till / ta bort ingredient
   function toggleIngredient(name) {
