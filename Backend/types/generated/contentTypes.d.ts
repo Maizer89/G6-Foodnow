@@ -511,6 +511,39 @@ export interface ApiIngredientIngredient extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiRecipeCategoryRecipeCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'recipe_categories';
+  info: {
+    displayName: 'Recipe Category';
+    pluralName: 'recipe-categories';
+    singularName: 'recipe-category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::recipe-category.recipe-category'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    recipes: Schema.Attribute.Relation<'oneToMany', 'api::recipe.recipe'>;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiRecipeRecipe extends Struct.CollectionTypeSchema {
   collectionName: 'recipes';
   info: {
@@ -537,9 +570,9 @@ export interface ApiRecipeRecipe extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    recipie_category: Schema.Attribute.Relation<
+    recipe_category: Schema.Attribute.Relation<
       'manyToOne',
-      'api::recipie-category.recipie-category'
+      'api::recipe-category.recipe-category'
     >;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
@@ -550,39 +583,6 @@ export interface ApiRecipeRecipe extends Struct.CollectionTypeSchema {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-  };
-}
-
-export interface ApiRecipieCategoryRecipieCategory
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'recipie_categories';
-  info: {
-    displayName: 'Recipie Category';
-    pluralName: 'recipie-categories';
-    singularName: 'recipie-category';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::recipie-category.recipie-category'
-    > &
-      Schema.Attribute.Private;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    publishedAt: Schema.Attribute.DateTime;
-    recipes: Schema.Attribute.Relation<'oneToMany', 'api::recipe.recipe'>;
-    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
   };
 }
 
@@ -1098,8 +1098,8 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::ingredient-category.ingredient-category': ApiIngredientCategoryIngredientCategory;
       'api::ingredient.ingredient': ApiIngredientIngredient;
+      'api::recipe-category.recipe-category': ApiRecipeCategoryRecipeCategory;
       'api::recipe.recipe': ApiRecipeRecipe;
-      'api::recipie-category.recipie-category': ApiRecipieCategoryRecipieCategory;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
