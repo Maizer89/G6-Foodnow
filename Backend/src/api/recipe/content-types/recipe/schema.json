@@ -31,17 +31,12 @@
     "image": {
       "type": "media",
       "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "allowedTypes": ["images", "files", "videos", "audios"]
     },
-    "recipie_category": {
+    "recipe_category": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::recipie-category.recipie-category",
+      "target": "api::recipe-category.recipe-category",
       "inversedBy": "recipes"
     },
     "ingredients": {
