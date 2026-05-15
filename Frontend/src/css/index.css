@@ -38,7 +38,6 @@ body {
 /* Sidebar */
 
 .sidebar {
-  position: fixed;
   width: 220px;
   min-height: 100vh;
   padding: 32px 24px;
@@ -97,7 +96,6 @@ body {
 /* Main layout */
 
 .main {
-  margin-left: 100px;
   flex: 1;
   padding: 48px 64px;
 }
