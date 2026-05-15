@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+Recept.route = {
+  path: "/",
+  label: "Recept",
+  index: 1,
+};
+
 const API_URL = "http://localhost:1337";
 
 function Recept() {
@@ -102,11 +108,5 @@ function Recept() {
     </main>
   );
 }
-
-Recept.route = {
-  path: "/",
-  label: "Recept",
-  index: 1,
-};
 
 export default Recept;
