@@ -38,6 +38,7 @@ body {
 /* Sidebar */
 
 .sidebar {
+  position: fixed;
   width: 220px;
   min-height: 100vh;
   padding: 32px 24px;
@@ -96,6 +97,7 @@ body {
 /* Main layout */
 
 .main {
+  margin-left: 100px;
   flex: 1;
   padding: 48px 64px;
 }
@@ -206,75 +208,92 @@ body {
 
 /* Recipe cards */
 
-.recipe-count {
-  font-weight: 700;
-  margin-bottom: 18px;
-}
-
-.recipe-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(240px, 1fr));
-  gap: 28px;
-}
-
 .recipe-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: var(--shadow);
   position: relative;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--primary);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.1);
 }
 
 .recipe-card img {
   width: 100%;
-  height: 210px;
+  height: 220px;
   object-fit: cover;
+
+  transition: transform 0.3s ease;
+}
+
+.recipe-card:hover img {
+  transform: scale(1.03);
 }
 
 .recipe-content {
-  padding: 18px;
+  padding: 20px;
 }
 
 .recipe-title {
-  margin: 0 0 12px;
-  font-size: 18px;
+  margin: 0 0 14px;
+  font-size: 20px;
   font-weight: 800;
+  line-height: 1.3;
+  color: var(--text);
 }
 
 .recipe-meta {
   display: flex;
-  gap: 18px;
+  align-items: center;
+  gap: 14px;
+
   color: var(--muted);
   font-size: 14px;
+  font-weight: 500;
 }
 
 .favorite-btn {
   position: absolute;
   right: 16px;
-  top: 190px;
-  width: 38px;
-  height: 38px;
+  top: 16px;
+
+  width: 42px;
+  height: 42px;
+
   border-radius: 50%;
-  border: 1px solid var(--border);
-  background: white;
+  border: none;
+
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
   cursor: pointer;
   font-size: 18px;
-}
 
-.favorite-btn.active {
-  color: var(--primary);
-}
-
-.recipe-card {
-  color: inherit;
-  text-decoration: none;
   transition: 0.2s ease;
 }
 
-.recipe-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--primary);
+.favorite-btn:hover {
+  transform: scale(1.08);
+  background: white;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
 }
 
 /* Categories */
