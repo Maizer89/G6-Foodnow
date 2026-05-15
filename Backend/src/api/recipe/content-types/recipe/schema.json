@@ -48,6 +48,11 @@
       "type": "component",
       "component": "recipe.recipe-ingredient",
       "repeatable": true
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

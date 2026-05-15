@@ -149,7 +149,7 @@ export function useCreateRecept() {
 
     try {
       const checkRes = await fetch(
-        `${API_URL}/api/recepts?filters[Title][$eqi]=${encodeURIComponent(normalizedTitle)}`
+        `${API_URL}/api/recipes?filters[title][$eqi]=${encodeURIComponent(normalizedTitle)}`
       );
       if (checkRes.ok) {
         const checkData = await checkRes.json();
@@ -165,20 +165,19 @@ export function useCreateRecept() {
       const currentUser = storedUser ? JSON.parse(storedUser) : null;
 
       const dataObj = {
-        Title: normalizedTitle,
-        Description: normalizedDescription,
-        Instructions: [
+        title: normalizedTitle,
+        description: normalizedDescription,
+        instructions: [
           {
             type: "paragraph",
             children: [{ type: "text", text: normalizedInstructions }]
           }
         ],
-        CookingTime: parsedCookingTime,
-        ingredients: selectedIngredients,
+        cooking_time_minutes: parsedCookingTime,
         // users_permissions_user kopplas server-side av backend-controllern
       };
 
-      const response = await fetch(`${API_URL}/api/recepts`, {
+      const response = await fetch(`${API_URL}/api/recipes`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -198,9 +197,9 @@ export function useCreateRecept() {
 
       if (images && images.length > 0 && entryId) {
         const uploadForm = new FormData();
-        uploadForm.append("ref", "api::recept.recept");
+        uploadForm.append("ref", "api::recipe.recipe");
         uploadForm.append("refId", String(entryId));
-        uploadForm.append("field", "Image");
+        uploadForm.append("field", "image");
         uploadForm.append("files", images[0], images[0].name);
 
         const uploadRes = await fetch(`${API_URL}/api/upload`, {
