@@ -9,41 +9,41 @@ ProfilePage.route = {
 
 function ProfilePage() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   function handleLogout() {
     logout();
     navigate("/login");
   }
 
+  const username = user?.username || "Användare";
+  const email = user?.email || "Ingen e-post";
+  const avatarUrl =
+    user?.avatar?.url || `https://ui-avatars.com/api/?name=${username}`;
+
   return (
-    <>
+    <main classname="main">
       <div className="page-header">
         <h1 className="page-title">Min profil</h1>
-
         <p className="page-subtitle">Hantera ditt konto och dina recept.</p>
       </div>
 
       <div className="profile-card">
-        <img
-          className="profile-avatar"
-          src="https://i.pravatar.cc/150?img=12"
-          alt="Avatar"
-        />
+        <img className="profile-avatar" src={avatarUrl} alt={username} />
 
         <div className="profile-info">
-          <h2>Test User</h2>
-          <p>test@example.com</p>
+          <h2>{username}</h2>
+          <p>{email}</p>
         </div>
 
         <div className="profile-stats">
           <div className="stat">
-            <strong>12</strong>
+            <strong>{user?.recipes?.length || 0}</strong>
             <span>Recept</span>
           </div>
 
           <div className="stat">
-            <strong>34</strong>
+            <strong>{user?.favorites?.length || 0}</strong>
             <span>Favoriter</span>
           </div>
         </div>
@@ -65,12 +65,22 @@ function ProfilePage() {
         <div className="settings-card">
           <div className="settings-item">
             <span>Mina recept</span>
-            <button className="secondary-btn" onClick={() => navigate("/my-recept")}>Visa</button>
+            <button
+              className="secondary-btn"
+              onClick={() => navigate("/my-recept")}
+            >
+              Visa
+            </button>
           </div>
 
           <div className="settings-item">
             <span>Skapa recept</span>
-            <button className="secondary-btn" onClick={() => navigate("/create-recept")}>Skapa</button>
+            <button
+              className="secondary-btn"
+              onClick={() => navigate("/create-recept")}
+            >
+              Skapa
+            </button>
           </div>
 
           <div className="settings-item">
@@ -81,7 +91,7 @@ function ProfilePage() {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }
 
