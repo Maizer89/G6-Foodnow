@@ -14,6 +14,11 @@ function Recept() {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
 
+  const [
+    selectedIngredients,
+    setSelectedIngredients,
+  ] = useState([]);
+
   useEffect(() => {
     async function fetchRecipes() {
       try {
@@ -33,8 +38,45 @@ function Recept() {
     fetchRecipes();
   }, []);
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.title?.toLowerCase().includes(search.toLowerCase()),
+  const filteredRecipes = recipes.filter(
+    (recipe) => {
+      // Filtrera på titel
+      const matchesSearch =
+        recipe.title
+          ?.toLowerCase()
+          .includes(search.toLowerCase());
+
+      // Om inga ingredients är valda
+      // visa alla recept
+      if (
+        selectedIngredients.length === 0
+      ) {
+        return matchesSearch;
+      }
+
+      // Hämta ingredient names från receptet
+      const recipeIngredientNames =
+        recipe.ingredients.map(
+          (item) =>
+            item.ingredient
+              ?.name_singular,
+        );
+
+      // Kontrollera om receptet innehåller
+      // alla valda ingredients
+      const matchesIngredients =
+        selectedIngredients.every(
+          (selectedIngredient) =>
+            recipeIngredientNames.includes(
+              selectedIngredient,
+            ),
+        );
+
+      return (
+        matchesSearch &&
+        matchesIngredients
+      );
+    },
   );
 
   return (
@@ -59,7 +101,16 @@ function Recept() {
           +
         </button>
       </div>
-      <IngredientFilter />
+      
+      <IngredientFilter
+        selectedIngredients={
+          selectedIngredients
+        }
+        setSelectedIngredients={
+          setSelectedIngredients
+        }
+      />
+
       <div className="recipe-count">
         {filteredRecipes.length} recept hittades
       </div>

@@ -786,6 +786,15 @@ for (const categoryName of categoriesData) {
         {
           data: {
             name: categoryName,
+
+            slug: categoryName
+              .toLowerCase()
+              .replace(/å/g, "a")
+              .replace(/ä/g, "a")
+              .replace(/ö/g, "o")
+              .replace(/\s+/g, "-")
+              .replace(/&/g, "och"),
+
             publishedAt: new Date(),
           },
         }
@@ -834,6 +843,17 @@ for (const categoryName of categoriesData) {
           {
             data: {
               ...ingredient,
+
+              slug: ingredient.name_singular
+                .toLowerCase()
+                .replace(/å/g, "a")
+                .replace(/ä/g, "a")
+                .replace(/ö/g, "o")
+                .replace(/\s+/g, "-"),
+
+              ingredient_category:
+                categoryMap[ingredient.category],
+
               publishedAt: new Date(),
             },
           }
