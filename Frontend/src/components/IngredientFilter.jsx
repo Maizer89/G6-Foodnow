@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 
-export default function IngredientFilter() {
+export default function IngredientFilter({
+  selectedIngredients,
+  setSelectedIngredients,
+}) {
   const [ingredients, setIngredients] = useState([]);
   const [search, setSearch] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
