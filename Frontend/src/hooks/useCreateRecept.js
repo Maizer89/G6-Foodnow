@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:1337";
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:1337"
 const MAX_TITLE_LENGTH = 120;
 const MAX_DESCRIPTION_LENGTH = 1000;
 const MAX_INSTRUCTIONS_LENGTH = 5000;
@@ -123,7 +123,7 @@ export function useCreateRecept() {
       return;
     }
 
-    if (selectedIngredients.some((id) => !Number.isInteger(id) || id <= 0)) {
+    if (selectedIngredients.some((id) => !id)) {
       setError("Ingrediensvalet innehåller ogiltiga värden.");
       return;
     }
@@ -174,7 +174,8 @@ export function useCreateRecept() {
           }
         ],
         cooking_time_minutes: parsedCookingTime,
-        // users_permissions_user kopplas server-side av backend-controllern
+        ingredients: selectedIngredients.map(id => ({ ingredient: id })),
+
       };
 
       const response = await fetch(`${API_URL}/api/recipes`, {
@@ -211,11 +212,10 @@ export function useCreateRecept() {
         if (!uploadRes.ok) {
           const errBody = await uploadRes.json().catch(() => ({}));
           console.error("Strapi fel (upload):", errBody);
-          // Receptet skapades men bild-uppladdning misslyckades – visa varning men fortsätt
+
           throw new Error("Receptet sparades men bilden kunde inte laddas upp. Kontrollera behörigheter för uppladdning i Strapi.");
         }
       }
-
 
       setSuccess(true);
 

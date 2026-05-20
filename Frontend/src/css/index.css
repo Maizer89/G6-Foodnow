@@ -600,3 +600,13 @@ body {
     gap: 32px;
   }
 }
+
+/* Recipe Detail Image */
+.recipe-detail-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
