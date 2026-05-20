@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useMyRecept } from "../hooks/useMyRecept";
 
 ProfilePage.route = {
   path: "/profile",
@@ -10,6 +11,7 @@ ProfilePage.route = {
 function ProfilePage() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { recipes } = useMyRecept();
 
   function handleLogout() {
     logout();
@@ -22,7 +24,7 @@ function ProfilePage() {
     user?.avatar?.url || `https://ui-avatars.com/api/?name=${username}`;
 
   return (
-    <main classname="main">
+    <main className="main">
       <div className="page-header">
         <h1 className="page-title">Min profil</h1>
         <p className="page-subtitle">Hantera ditt konto och dina recept.</p>
@@ -38,7 +40,7 @@ function ProfilePage() {
 
         <div className="profile-stats">
           <div className="stat">
-            <strong>{user?.recipes?.length || 0}</strong>
+            <strong>{recipes?.length || 0}</strong>
             <span>Recept</span>
           </div>
 

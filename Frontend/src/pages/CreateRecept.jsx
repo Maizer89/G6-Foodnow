@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useCreateRecept } from "../hooks/useCreateRecept";
 import "../css/CreateRecept.css";
 
@@ -8,6 +9,7 @@ CreateRecept.route = {
 };
 
 function CreateRecept() {
+  const navigate = useNavigate();
   const {
     title, setTitle,
     description, setDescription,
@@ -34,6 +36,13 @@ function CreateRecept() {
   return (
     <div className="main create-recept-page">
       <div className="page-header">
+        <button
+          className="primary-btn"
+          style={{ marginBottom: "16px" }}
+          onClick={() => navigate(-1)}
+        >
+          ← Tillbaka
+        </button>
         <h1 className="page-title">Skapa Recept</h1>
       </div>
 
@@ -154,10 +163,11 @@ function CreateRecept() {
             ).map((ingredient, idx) => {
               const name =
                 ingredient?.name_singular ??
-                ingredient?.name_plural ??
-                ingredient?.name ??
+                ingredient?.attributes?.name_singular ??
+                ingredient?.Name ??
+                ingredient?.attributes?.Name ??
                 "Okänd ingrediens";
-              const id = ingredient?.id ?? idx;
+              const id = ingredient?.documentId ?? ingredient?.id ?? idx;
 
               return (
                 <label key={id} className="ingredient-item chip">
@@ -165,7 +175,7 @@ function CreateRecept() {
                     type="checkbox"
                     value={id}
                     checked={selectedIngredients.includes(id)}
-                    onChange={() => handleCheckboxChange(ingredient?.id ?? id)}
+                    onChange={() => handleCheckboxChange(id)}
                   />
                   {name}
                 </label>
