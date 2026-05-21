@@ -35,15 +35,21 @@ function CategoryRecipes() {
 
         const json = await res.json();
 
+        const categoryRes = await fetch(
+          `${API_URL}/api/recipe-categories?filters[slug][$eq]=${slug}`,
+        );
+
+        const categoryJson = await categoryRes.json();
+
+        if (categoryJson.data?.[0]?.name) {
+          setCategoryName(categoryJson.data[0].name);
+        }
+
         setRecipes((prev) =>
           page === 1 ? json.data || [] : [...prev, ...(json.data || [])],
         );
 
         setPageCount(json.meta?.pagination?.pageCount || 1);
-
-        if (json.data?.[0]?.recipe_category?.name) {
-          setCategoryName(json.data[0].recipe_category.name);
-        }
       } catch (error) {
         console.error("Kunde inte hämta kategorirecept:", error);
       } finally {
