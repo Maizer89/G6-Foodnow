@@ -41,7 +41,7 @@ function Categories() {
           return (
             <Link
               key={category.documentId || category.id}
-              to={`/?category=${category.slug}`}
+              to={`/category/${category.slug}`}
               className="category-card"
             >
               <img src={imageUrl} alt={category.name} />
