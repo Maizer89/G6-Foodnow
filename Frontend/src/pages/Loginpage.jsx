@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 LoginPage.route = {
@@ -13,11 +12,14 @@ LoginPage.route = {
 function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
   const { login } = useAuth();
 
   async function handleLogin(e) {
     e.preventDefault();
+    setError("");
 
     const response = await fetch("http://localhost:1337/api/auth/local", {
       method: "POST",
@@ -32,11 +34,12 @@ function LoginPage() {
 
     const data = await response.json();
 
-    if (response.ok) {
-      login(data.jwt, data.user);
-
-      navigate("/");
+    if (!response.ok) {
+      setError("Fel användarnamn eller lösenord.");
+      return;
     }
+    login(data.jwt, data.user);
+    navigate("/");
   }
 
   return (
@@ -64,6 +67,8 @@ function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          {error && <p className="auth-error">{error}</p>}
 
           <button className="primary-btn">Logga in</button>
         </form>
