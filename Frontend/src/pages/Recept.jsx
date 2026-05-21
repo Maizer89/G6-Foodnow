@@ -14,20 +14,13 @@ function Recept() {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
 
-  const [
-    selectedIngredients,
-    setSelectedIngredients,
-  ] = useState([]);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   useEffect(() => {
     async function fetchRecipes() {
       try {
-        const res = await fetch(
-          `${API_URL}/api/recipes?populate[image]=true&populate[recipe_category]=true&populate[ingredients][populate][ingredient]=true`,
-        );
-
+        const res = await fetch(`${API_URL}/api/recipes?populate=*`);
         const json = await res.json();
-        console.log("Strapi recipes:", json);
 
         setRecipes(json.data || []);
       } catch (error) {
@@ -38,46 +31,31 @@ function Recept() {
     fetchRecipes();
   }, []);
 
-  const filteredRecipes = recipes.filter(
-    (recipe) => {
-      // Filtrera på titel
-      const matchesSearch =
-        recipe.title
-          ?.toLowerCase()
-          .includes(search.toLowerCase());
+  const filteredRecipes = recipes.filter((recipe) => {
+    // Filtrera på titel
+    const matchesSearch = recipe.title
+      ?.toLowerCase()
+      .includes(search.toLowerCase());
 
-      // Om inga ingredients är valda
-      // visa alla recept
-      if (
-        selectedIngredients.length === 0
-      ) {
-        return matchesSearch;
-      }
+    // Om inga ingredients är valda
+    // visa alla recept
+    if (selectedIngredients.length === 0) {
+      return matchesSearch;
+    }
 
-      // Hämta ingredient names från receptet
-      const recipeIngredientNames =
-        recipe.ingredients.map(
-          (item) =>
-            item.ingredient
-              ?.name_singular,
-        );
+    // Hämta ingredient names från receptet
+    const recipeIngredientNames = recipe.ingredients.map(
+      (item) => item.ingredient?.name_singular,
+    );
 
-      // Kontrollera om receptet innehåller
-      // alla valda ingredients
-      const matchesIngredients =
-        selectedIngredients.every(
-          (selectedIngredient) =>
-            recipeIngredientNames.includes(
-              selectedIngredient,
-            ),
-        );
+    // Kontrollera om receptet innehåller
+    // alla valda ingredients
+    const matchesIngredients = selectedIngredients.every((selectedIngredient) =>
+      recipeIngredientNames.includes(selectedIngredient),
+    );
 
-      return (
-        matchesSearch &&
-        matchesIngredients
-      );
-    },
-  );
+    return matchesSearch && matchesIngredients;
+  });
 
   return (
     <main className="main">
@@ -101,14 +79,10 @@ function Recept() {
           +
         </button>
       </div>
-      
+
       <IngredientFilter
-        selectedIngredients={
-          selectedIngredients
-        }
-        setSelectedIngredients={
-          setSelectedIngredients
-        }
+        selectedIngredients={selectedIngredients}
+        setSelectedIngredients={setSelectedIngredients}
       />
 
       <div className="recipe-count">
