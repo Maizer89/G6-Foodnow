@@ -5,6 +5,7 @@ import { useMyRecept } from "../hooks/useMyRecept";
 ProfilePage.route = {
   path: "/profile",
   label: "Min Profil",
+  index: 3,
   authOnly: true,
 };
 
