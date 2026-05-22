@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 const categoriesData = [
   "Grönsaker",
   "Frukt",
@@ -745,43 +748,81 @@ const recipesData = [
   },
 ];
 
-  // =====================
-  // Seed function
-  // =====================
+const recipeCategoriesData = [
+  { name: "Bak & dessert", slug: "bak-dessert", image: "bak-dessert.jpg" },
+  { name: "Dryck", slug: "dryck", image: "dryck.jpg" },
+  { name: "Kött", slug: "kott", image: "kott.jpg" },
+  { name: "Kyckling", slug: "kyckling", image: "kyckling.jpg" },
+  { name: "Fisk", slug: "fisk", image: "fisk.jpg" },
+  { name: "Skaldjur", slug: "skaldjur", image: "skaldjur.jpg" },
+  { name: "Vegetariskt", slug: "vegetariskt", image: "vegetariskt.jpg" },
+  { name: "Veganskt", slug: "veganskt", image: "veganskt.jpg" },
+];
+
+async function uploadImage(strapi, fileName) {
+  const filePath = path.join(
+    __dirname,
+    "..",
+    "public",
+    "recipeCategoryImages",
+    fileName,
+  );
+
+  if (!fs.existsSync(filePath)) {
+    console.log(`Bild saknas: ${fileName}`);
+    return null;
+  }
+
+  const fileStat = fs.statSync(filePath);
+
+  const uploadedFiles = await strapi.plugins.upload.services.upload.upload({
+    data: {},
+    files: {
+      filepath: filePath,
+      path: filePath,
+      name: fileName,
+      type: "image/jpeg",
+      mimetype: "image/jpeg",
+      size: fileStat.size,
+    },
+  });
+
+  return uploadedFiles[0];
+}
+
+// =====================
+// Seed function
+// =====================
 
 async function seed(strapi) {
   console.log("Startar seed...");
-  
+
   const categoryMap = {};
   const ingredientMap = {};
-
+  const recipeCategoryMap = {};
 
   // =====================
   // CATEGORIES
   // =====================
 
-for (const categoryName of categoriesData) {
-  const existingCategory =
-    await strapi.entityService.findMany(
+  for (const categoryName of categoriesData) {
+    const existingCategory = await strapi.entityService.findMany(
       "api::ingredient-category.ingredient-category",
       {
         filters: {
           name: categoryName,
         },
-      }
+      },
     );
 
-  let categoryId;
+    let categoryId;
 
-  if (existingCategory.length > 0) {
-    categoryId = existingCategory[0].id;
+    if (existingCategory.length > 0) {
+      categoryId = existingCategory[0].id;
 
-    console.log(
-      `Kategori finns redan: ${categoryName}`
-    );
-  } else {
-    const createdCategory =
-      await strapi.entityService.create(
+      console.log(`Kategori finns redan: ${categoryName}`);
+    } else {
+      const createdCategory = await strapi.entityService.create(
         "api::ingredient-category.ingredient-category",
         {
           data: {
@@ -797,77 +838,107 @@ for (const categoryName of categoriesData) {
 
             publishedAt: new Date(),
           },
-        }
+        },
       );
 
-    categoryId = createdCategory.id;
+      categoryId = createdCategory.id;
 
-    console.log(
-      `Kategori skapad: ${categoryName}`
-    );
+      console.log(`Kategori skapad: ${categoryName}`);
+    }
+
+    categoryMap[categoryName] = categoryId;
   }
 
-  categoryMap[categoryName] = categoryId;
-}
+  // =====================
+  // RECIPE CATEGORIES
+  // =====================
 
+  for (const category of recipeCategoriesData) {
+    const existingCategory = await strapi.entityService.findMany(
+      "api::recipe-category.recipe-category",
+      {
+        filters: {
+          $or: [{ slug: category.slug }, { name: category.name }],
+        },
+      },
+    );
+
+    let categoryId;
+
+    if (existingCategory.length > 0) {
+      categoryId = existingCategory[0].id;
+
+      console.log(`Receptkategori finns redan: ${category.name}`);
+    } else {
+      const uploadedImage = await uploadImage(strapi, category.image);
+
+      const createdCategory = await strapi.entityService.create(
+        "api::recipe-category.recipe-category",
+        {
+          data: {
+            name: category.name,
+            slug: category.slug,
+            image: uploadedImage?.id || null,
+            publishedAt: new Date(),
+          },
+        },
+      );
+
+      categoryId = createdCategory.id;
+
+      console.log(`Receptkategori skapad: ${category.name}`);
+    }
+
+    recipeCategoryMap[category.name] = categoryId;
+  }
 
   // =====================
   // INGREDIENTS
   // =====================
 
   for (const ingredient of ingredientsData) {
-    const existingIngredients =
-      await strapi.entityService.findMany(
-        "api::ingredient.ingredient",
-        {
-          filters: {
-            name_singular:
-              ingredient.name_singular,
-          },
-        }
-      );
+    const existingIngredients = await strapi.entityService.findMany(
+      "api::ingredient.ingredient",
+      {
+        filters: {
+          name_singular: ingredient.name_singular,
+        },
+      },
+    );
 
     let ingredientId;
 
     if (existingIngredients.length > 0) {
-      ingredientId =
-        existingIngredients[0].id;
+      ingredientId = existingIngredients[0].id;
 
-      console.log(
-        `Ingrediens finns redan: ${ingredient.name_singular}`
-      );
+      console.log(`Ingrediens finns redan: ${ingredient.name_singular}`);
     } else {
-      const createdIngredient =
-        await strapi.entityService.create(
-          "api::ingredient.ingredient",
-          {
-            data: {
-              ...ingredient,
+      const createdIngredient = await strapi.entityService.create(
+        "api::ingredient.ingredient",
+        {
+          data: {
+            ...ingredient,
 
-              slug: ingredient.name_singular
-                .toLowerCase()
-                .replace(/å/g, "a")
-                .replace(/ä/g, "a")
-                .replace(/ö/g, "o")
-                .replace(/\s+/g, "-"),
+            slug: ingredient.name_singular
+              .toLowerCase()
+              .replace(/å/g, "a")
+              .replace(/ä/g, "a")
+              .replace(/ö/g, "o")
+              .replace(/\s+/g, "-"),
 
-              ingredient_category:
-                categoryMap[ingredient.category],
+            ingredient_category: categoryMap[ingredient.category],
 
-              publishedAt: new Date(),
-            },
-          }
-        );
+            publishedAt: new Date(),
+          },
+        },
+      );
 
       ingredientId = createdIngredient.id;
 
-      console.log(
-        `Ingrediens skapad: ${ingredient.name_singular}`
-      );
+      console.log(`Ingrediens skapad: ${ingredient.name_singular}`);
     }
 
-    ingredientMap[ingredient.name_singular] =
-      ingredientId;
+    ingredientMap[ingredient.name_singular] = ingredientId;
   }
 
   // =====================
@@ -875,58 +946,45 @@ for (const categoryName of categoriesData) {
   // =====================
 
   for (const recipe of recipesData) {
-    const formattedIngredients =
-      recipe.ingredients.map((item) => ({
-        amount: item.amount,
-        unit: item.unit,
-        note: "",
+    const formattedIngredients = recipe.ingredients.map((item) => ({
+      amount: item.amount,
+      unit: item.unit,
+      note: "",
 
-        ingredient:
-          ingredientMap[item.ingredient],
-      }));
+      ingredient: ingredientMap[item.ingredient],
+    }));
 
-    const existingRecipe =
-      await strapi.entityService.findMany(
-        "api::recipe.recipe",
-        {
-          filters: {
-            title: recipe.title,
-          },
-        }
-      );
+    const existingRecipe = await strapi.entityService.findMany(
+      "api::recipe.recipe",
+      {
+        filters: {
+          title: recipe.title,
+        },
+      },
+    );
 
     if (existingRecipe.length > 0) {
-      console.log(
-        `Recept finns redan: ${recipe.title}`
-      );
+      console.log(`Recept finns redan: ${recipe.title}`);
 
       continue;
     }
 
-    await strapi.entityService.create(
-      "api::recipe.recipe",
-      {
-        data: {
-          title: recipe.title,
-          description: recipe.description,
+    await strapi.entityService.create("api::recipe.recipe", {
+      data: {
+        title: recipe.title,
+        description: recipe.description,
 
-          cooking_time_minutes:
-            recipe.cooking_time_minutes,
+        cooking_time_minutes: recipe.cooking_time_minutes,
 
-          instructions:
-            recipe.instructions,
+        instructions: recipe.instructions,
 
-          ingredients:
-            formattedIngredients,
+        ingredients: formattedIngredients,
 
-          publishedAt: new Date(),
-        },
-      }
-    );
+        publishedAt: new Date(),
+      },
+    });
 
-    console.log(
-      `Recept skapat: ${recipe.title}`
-    );
+    console.log(`Recept skapat: ${recipe.title}`);
   }
 
   console.log("Seed klar!");
