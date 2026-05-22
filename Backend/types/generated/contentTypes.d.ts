@@ -526,7 +526,6 @@ export interface ApiRecipeCategoryRecipeCategory
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -561,6 +560,10 @@ export interface ApiRecipeRecipe extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
+    favorited_by_users: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     ingredients: Schema.Attribute.Component<'recipe.recipe-ingredient', true>;
     instructions: Schema.Attribute.Blocks;
@@ -1056,6 +1059,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    favorites: Schema.Attribute.Relation<'manyToMany', 'api::recipe.recipe'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1067,6 +1071,9 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    profilePic: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     recipes: Schema.Attribute.Relation<'oneToMany', 'api::recipe.recipe'>;

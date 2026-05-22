@@ -71,6 +71,22 @@
       "relation": "oneToMany",
       "target": "api::recipe.recipe",
       "mappedBy": "users_permissions_user"
+    },
+    "favorites": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::recipe.recipe",
+      "inversedBy": "favorited_by_users"
+    },
+    "profilePic": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

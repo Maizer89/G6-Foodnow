@@ -39,13 +39,16 @@ body {
 
 .sidebar {
   width: 220px;
-  min-height: 100vh;
+  height: 100vh;
+  position: sticky;
+  top: 0;
   padding: 32px 24px;
   background: var(--surface);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow-y: auto;
 }
 
 .logout-btn {
@@ -334,9 +337,8 @@ body {
 /* Favorites */
 
 .favorites-layout {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 32px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .favorite-list {
@@ -344,15 +346,23 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .favorite-item {
   display: grid;
   grid-template-columns: 120px 1fr auto;
-  gap: 20px;
-  padding: 16px;
+  gap: 24px;
+  padding: 20px;
   align-items: center;
   border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.favorite-item:hover {
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .favorite-item:last-child {
@@ -361,14 +371,43 @@ body {
 
 .favorite-item img {
   width: 120px;
-  height: 88px;
+  height: 90px;
   object-fit: cover;
   border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .favorite-info h3 {
-  margin: 0 0 10px;
-  font-size: 17px;
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.favorite-info p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.remove-favorite-btn {
+  background: rgba(255, 59, 48, 0.1);
+  color: #ff3b30;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.remove-favorite-btn:hover {
+  background: #ff3b30;
+  color: white;
+  transform: scale(1.1);
 }
 
 .empty-state {
@@ -394,11 +433,37 @@ body {
   margin-bottom: 36px;
 }
 
-.profile-avatar {
+.profile-avatar-container {
+  position: relative;
   width: 96px;
   height: 96px;
   border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.profile-avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-out;
 }
 
 .profile-info {
@@ -541,19 +606,6 @@ body {
   text-decoration: underline;
 }
 
-.auth-error {
-  color: #d62828;
-  font-size: 14px;
-  font-weight: 700;
-  margin: -4px 0 4px;
-}
-
-.auth-success {
-  color: #2f7d32;
-  font-size: 14px;
-  font-weight: 700;
-}
-
 /* Responsive */
 
 @media (max-width: 1100px) {
@@ -622,4 +674,213 @@ body {
   border-radius: 12px;
   margin-bottom: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Overlay & Box */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.25s ease-out;
+  padding: 16px;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.modal-header {
+  margin-bottom: 24px;
+}
+
+.modal-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 6px 0;
+}
+
+.modal-subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Form Styles inside Modal */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container .search-input {
+  padding-right: 48px;
+  /* Room for the show/hide button */
+  width: 100%;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+.password-toggle-btn:hover {
+  color: var(--text);
+}
+
+/* Alerts inside Modal */
+.alert {
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-error {
+  background: #fdf2f2;
+  color: #c81e1e;
+  border: 1px solid #fbd5d5;
+}
+
+.alert-success {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border: 1px solid #d1e7dd;
+}
+
+/* Modal Action Buttons */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.modal-actions button {
+  padding: 12px 24px;
+  font-size: 15px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Refactored Utility Classes */
+.hidden-file-input {
+  display: none;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.back-btn {
+  margin-bottom: 1rem;
+}
+
+.recipe-detail-header {
+  position: relative;
+}
+
+.recipe-detail-title {
+  padding-right: 50px;
+}
+
+.recipe-detail-favorite-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
