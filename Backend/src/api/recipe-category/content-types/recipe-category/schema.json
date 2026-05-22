@@ -26,16 +26,6 @@
       "relation": "oneToMany",
       "target": "api::recipe.recipe",
       "mappedBy": "recipe_category"
-    },
-    "image": {
-      "type": "media",
-      "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
     }
   }
 }
