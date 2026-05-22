@@ -1,5 +1,8 @@
 const fs = require("fs");
 const path = require("path");
+function getRecipeImage(fileName) {
+  return `/recipeCardImg/${fileName}`;
+}
 
 const categoriesData = [
   "Grönsaker",
@@ -645,7 +648,7 @@ const recipesData = [
     cooking_time_minutes: 20,
     category: "Vegetariskt",
     imageUrl:
-      "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+      getRecipeImage("tomatpasta.jpg"),
 
     instructions: [
       {
@@ -685,7 +688,7 @@ const recipesData = [
     cooking_time_minutes: 35,
     category: "Kyckling",
     imageUrl:
-      "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d",
+      getRecipeImage("kycklingbowl.jpg"),
 
     instructions: [
       {
@@ -725,7 +728,7 @@ const recipesData = [
     cooking_time_minutes: 25,
     category: "Vegetariskt",
     imageUrl:
-      "https://images.unsplash.com/photo-1512058564366-18510be2db19",
+      getRecipeImage("riswok.jpg"),
 
     instructions: [
       {
@@ -766,7 +769,7 @@ const recipesData = [
     cooking_time_minutes: 30,
     category: "Kyckling",
     imageUrl:
-      "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb",
+      getRecipeImage("pastaalfredo.jpg"),
 
     instructions: [
       {
@@ -812,7 +815,7 @@ const recipesData = [
     cooking_time_minutes: 25,
     category: "Veganskt",
     imageUrl:
-      "https://images.unsplash.com/photo-1547592180-85f173990554",
+      getRecipeImage("curry.jpg"),
 
     instructions: [
       {
@@ -852,7 +855,7 @@ const recipesData = [
     cooking_time_minutes: 35,
     category: "Fisk",
     imageUrl:
-      "https://images.unsplash.com/photo-1467003909585-2f8a72700288",
+      getRecipeImage("lax.jpg"),
 
     instructions: [
       {
@@ -893,7 +896,7 @@ const recipesData = [
     cooking_time_minutes: 20,
     category: "Kött",
     imageUrl:
-      "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85",
+      getRecipeImage("tacowraps.jpg"),
 
     instructions: [
       {
@@ -933,7 +936,7 @@ const recipesData = [
     cooking_time_minutes: 25,
     category: "Skaldjur",
     imageUrl:
-      "https://images.unsplash.com/photo-1563379091339-03246963d29a",
+      getRecipeImage("rakpasta.jpg"),
 
     instructions: [
       {
@@ -973,7 +976,7 @@ const recipesData = [
     cooking_time_minutes: 15,
     category: "Bak & dessert",
     imageUrl:
-      "https://images.unsplash.com/photo-1528207776546-365bb710ee93",
+      getRecipeImage("bananpannkakor.jpg"),
 
     instructions: [
       {
@@ -1008,7 +1011,7 @@ const recipesData = [
     cooking_time_minutes: 5,
     category: "Dryck",
     imageUrl:
-      "https://images.unsplash.com/photo-1502741338009-cac2772e18bc",
+      getRecipeImage("hallonsmoothie.jpg"),
 
     instructions: [
       {
@@ -1044,7 +1047,7 @@ const recipesData = [
     cooking_time_minutes: 25,
     category: "Kyckling",
     imageUrl:
-      "https://images.unsplash.com/photo-1512058564366-18510be2db19",
+      getRecipeImage("kycklingwok.jpg"),
 
     instructions: [
       {
@@ -1084,7 +1087,7 @@ const recipesData = [
     cooking_time_minutes: 15,
     category: "Vegetariskt",
     imageUrl:
-      "https://images.unsplash.com/photo-1473093295043-cdd812d0e601",
+      getRecipeImage("pestapasta.jpg"),
 
     instructions: [
       {
@@ -1125,7 +1128,7 @@ const recipesData = [
     cooking_time_minutes: 40,
     category: "Kött",
     imageUrl:
-      "https://images.unsplash.com/photo-1529042410759-befb1204b468",
+      getRecipeImage("kottbullarmedris.jpg"),
 
     instructions: [
       {
@@ -1161,7 +1164,7 @@ const recipesData = [
     cooking_time_minutes: 30,
     category: "Fisk",
     imageUrl:
-      "https://images.unsplash.com/photo-1547592180-85f173990554",
+      getRecipeImage("fiskgryta.jpg"),
 
     instructions: [
       {
@@ -1197,7 +1200,7 @@ const recipesData = [
     cooking_time_minutes: 20,
     category: "Veganskt",
     imageUrl:
-      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
+      getRecipeImage("vegobowl.jpg"),
 
     instructions: [
       {
@@ -1233,7 +1236,7 @@ const recipesData = [
     cooking_time_minutes: 10,
     category: "Vegetariskt",
     imageUrl:
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+      getRecipeImage("mozarellatoast.jpg"),
 
     instructions: [
       {
