@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import IngredientFilter from "../components/IngredientFilter";
+import GuestFavoriteModal from "../components/GuestFavoriteModal";
+import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
 
 Recept.route = {
   path: "/",
@@ -13,14 +15,22 @@ const API_URL = "http://localhost:1337";
 function Recept() {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
+  const { toggleFavorite, isGuestModalOpen, setIsGuestModalOpen, checkIfFavorite } = useFavoriteToggle();
 
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [
+    selectedIngredients,
+    setSelectedIngredients,
+  ] = useState([]);
 
   useEffect(() => {
     async function fetchRecipes() {
       try {
-        const res = await fetch(`${API_URL}/api/recipes?populate=*`);
+        const res = await fetch(
+          `${API_URL}/api/recipes?populate[image]=true&populate[recipe_category]=true&populate[ingredients][populate][ingredient]=true`,
+        );
+
         const json = await res.json();
+        console.log("Strapi recipes:", json);
 
         setRecipes(json.data || []);
       } catch (error) {
@@ -31,31 +41,46 @@ function Recept() {
     fetchRecipes();
   }, []);
 
-  const filteredRecipes = recipes.filter((recipe) => {
-    // Filtrera på titel
-    const matchesSearch = recipe.title
-      ?.toLowerCase()
-      .includes(search.toLowerCase());
+  const filteredRecipes = recipes.filter(
+    (recipe) => {
+      // Filtrera på titel
+      const matchesSearch =
+        recipe.title
+          ?.toLowerCase()
+          .includes(search.toLowerCase());
 
-    // Om inga ingredients är valda
-    // visa alla recept
-    if (selectedIngredients.length === 0) {
-      return matchesSearch;
-    }
+      // Om inga ingredients är valda
+      // visa alla recept
+      if (
+        selectedIngredients.length === 0
+      ) {
+        return matchesSearch;
+      }
 
-    // Hämta ingredient names från receptet
-    const recipeIngredientNames = recipe.ingredients.map(
-      (item) => item.ingredient?.name_singular,
-    );
+      // Hämta ingredient names från receptet
+      const recipeIngredientNames =
+        recipe.ingredients.map(
+          (item) =>
+            item.ingredient
+              ?.name_singular,
+        );
 
-    // Kontrollera om receptet innehåller
-    // alla valda ingredients
-    const matchesIngredients = selectedIngredients.every((selectedIngredient) =>
-      recipeIngredientNames.includes(selectedIngredient),
-    );
+      // Kontrollera om receptet innehåller
+      // alla valda ingredients
+      const matchesIngredients =
+        selectedIngredients.every(
+          (selectedIngredient) =>
+            recipeIngredientNames.includes(
+              selectedIngredient,
+            ),
+        );
 
-    return matchesSearch && matchesIngredients;
-  });
+      return (
+        matchesSearch &&
+        matchesIngredients
+      );
+    },
+  );
 
   return (
     <main className="main">
@@ -79,10 +104,14 @@ function Recept() {
           +
         </button>
       </div>
-
+      
       <IngredientFilter
-        selectedIngredients={selectedIngredients}
-        setSelectedIngredients={setSelectedIngredients}
+        selectedIngredients={
+          selectedIngredients
+        }
+        setSelectedIngredients={
+          setSelectedIngredients
+        }
       />
 
       <div className="recipe-count">
@@ -103,8 +132,14 @@ function Recept() {
             >
               <img src={imageUrl} alt={recipe.title} />
 
-              <button className="favorite-btn" type="button">
-                ♡
+              <button
+                className={`favorite-btn ${
+                  checkIfFavorite(recipe) ? "active" : ""
+                }`}
+                type="button"
+                onClick={(e) => toggleFavorite(e, recipe)}
+              >
+                {checkIfFavorite(recipe) ? "♥" : "♡"}
               </button>
 
               <div className="recipe-content">
@@ -119,6 +154,11 @@ function Recept() {
           );
         })}
       </div>
+
+      <GuestFavoriteModal 
+        isOpen={isGuestModalOpen} 
+        onClose={() => setIsGuestModalOpen(false)} 
+      />
     </main>
   );
 }

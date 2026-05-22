@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useMyRecept } from "../hooks/useMyRecept";
+import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
+import GuestFavoriteModal from "../components/GuestFavoriteModal";
 import "../css/MyRecept.css";
 
 MyReceptPage.route = {
@@ -35,6 +37,8 @@ function MyReceptPage() {
         handleDelete,
         API_URL,
     } = useMyRecept();
+
+    const { toggleFavorite, isGuestModalOpen, setIsGuestModalOpen, checkIfFavorite } = useFavoriteToggle();
 
     function getImageUrl(recipe) {
         const img = recipe?.image;
@@ -105,11 +109,13 @@ function MyReceptPage() {
                             )}
 
                             <button
-                                className="favorite-btn"
+                                className={`favorite-btn ${
+                                    checkIfFavorite(recipe) ? "active" : ""
+                                }`}
                                 type="button"
-                                onClick={(e) => e.stopPropagation()}
+                                onClick={(e) => toggleFavorite(e, recipe)}
                             >
-                                ♡
+                                {checkIfFavorite(recipe) ? "♥" : "♡"}
                             </button>
 
                             <div className="recipe-content">
@@ -360,6 +366,11 @@ function MyReceptPage() {
                     </div>
                 </div>
             )}
+
+            <GuestFavoriteModal 
+                isOpen={isGuestModalOpen} 
+                onClose={() => setIsGuestModalOpen(false)} 
+            />
         </div>
     );
 }

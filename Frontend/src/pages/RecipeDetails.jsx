@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
+import GuestFavoriteModal from "../components/GuestFavoriteModal";
 
 const API_URL = "http://localhost:1337";
 
@@ -12,6 +15,7 @@ function RecipeDetail() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const navigate = useNavigate();
+  const { toggleFavorite, isGuestModalOpen, setIsGuestModalOpen, checkIfFavorite } = useFavoriteToggle();
 
   useEffect(() => {
     async function fetchRecipe() {
@@ -37,8 +41,7 @@ function RecipeDetail() {
   return (
     <main className="main">
       <button
-        className="primary-btn"
-        style={{ marginBottom: "10px" }}
+        className="primary-btn back-btn"
         onClick={() => navigate(-1)}
       >
         ← Tillbaka
@@ -50,9 +53,19 @@ function RecipeDetail() {
           alt={recipe.title}
         />
 
-        <div className="page-header">
-          <h1 className="page-title">{recipe.title}</h1>
+        <div className="page-header recipe-detail-header">
+          <h1 className="page-title recipe-detail-title">{recipe.title}</h1>
           <p className="page-subtitle">{recipe.description}</p>
+          
+          <button
+            className={`favorite-btn recipe-detail-favorite-btn ${
+              checkIfFavorite(recipe) ? "active" : ""
+            }`}
+            type="button"
+            onClick={(e) => toggleFavorite(e, recipe)}
+          >
+            {checkIfFavorite(recipe) ? "♥" : "♡"}
+          </button>
         </div>
 
         <div className="recipe-meta">
@@ -83,6 +96,11 @@ function RecipeDetail() {
           ))}
         </section>
       </div>
+
+      <GuestFavoriteModal 
+        isOpen={isGuestModalOpen} 
+        onClose={() => setIsGuestModalOpen(false)} 
+      />
     </main>
   );
 }
