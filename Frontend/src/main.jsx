@@ -9,16 +9,21 @@ import "./css/index.css";
 import App from "./App.jsx";
 import routes from "./routes.jsx";
 import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      ...routes.map(({ path, element }) => ({
-        path: path === "/" ? undefined : path,
-        index: path === "/",
-        element,
+      ...routes.map((route) => ({
+        path: route.path === "/" ? undefined : route.path,
+        index: route.path === "/",
+        element: (
+          <ProtectedRoute authOnly={route.authOnly} guestOnly={route.guestOnly}>
+            {route.element}
+          </ProtectedRoute>
+        ),
       })),
       {
         path: "*",

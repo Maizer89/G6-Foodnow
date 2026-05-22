@@ -6,6 +6,7 @@ CreateRecept.route = {
   path: "/create-recept",
   label: "Skapa Recept",
   hidden: true,
+  authOnly: true,
 };
 
 function CreateRecept() {

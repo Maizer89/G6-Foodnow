@@ -62,11 +62,11 @@ function CategoryRecipes() {
 
   return (
     <main className="main">
-      <button className="primary-btn" onClick={() => navigate(-1)}>
+      <button className="primary-btn back-btn" onClick={() => navigate(-1)}>
         ← Tillbaka
       </button>
 
-      <div className="page-header" style={{ marginTop: "24px" }}>
+      <div className="page-header">
         <h1 className="page-title">{categoryName}</h1>
         <p className="page-subtitle">Recept i kategorin {categoryName}.</p>
       </div>

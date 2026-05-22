@@ -8,6 +8,7 @@ MyReceptPage.route = {
     path: "/my-recept",
     label: "Mina Recept",
     hidden: true,
+    authOnly: true,
 };
 
 function MyReceptPage() {
