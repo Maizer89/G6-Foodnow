@@ -643,6 +643,9 @@ const recipesData = [
     title: "Krämig Tomatpasta",
     description: "En snabb och krämig pasta med tomatsås.",
     cooking_time_minutes: 20,
+    category: "Vegetariskt",
+    imageUrl:
+      "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
 
     instructions: [
       {
@@ -650,7 +653,8 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text: "Koka pastan och blanda med tomatsås och ost.",
+            text:
+              "Koka pastan och blanda med tomatsås och ost.",
           },
         ],
       },
@@ -679,6 +683,9 @@ const recipesData = [
     title: "Vitlökskyckling",
     description: "Saftig kyckling med vitlökssmör.",
     cooking_time_minutes: 35,
+    category: "Kyckling",
+    imageUrl:
+      "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d",
 
     instructions: [
       {
@@ -686,7 +693,8 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text: "Stek kycklingen och tillsätt vitlök och smör.",
+            text:
+              "Stek kycklingen och tillsätt vitlök och smör.",
           },
         ],
       },
@@ -715,6 +723,9 @@ const recipesData = [
     title: "Vegetarisk Riswok",
     description: "En enkel wok med ris och grönsaker.",
     cooking_time_minutes: 25,
+    category: "Vegetariskt",
+    imageUrl:
+      "https://images.unsplash.com/photo-1512058564366-18510be2db19",
 
     instructions: [
       {
@@ -722,7 +733,8 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text: "Stek grönsakerna och servera med ris.",
+            text:
+              "Stek grönsakerna och servera med ris.",
           },
         ],
       },
@@ -741,6 +753,509 @@ const recipesData = [
       },
       {
         ingredient: "Lök",
+        amount: "1",
+        unit: "st",
+      },
+    ],
+  },
+
+  {
+    title: "Chicken Alfredo",
+    description:
+      "Krämig pasta med kyckling och parmesan.",
+    cooking_time_minutes: 30,
+    category: "Kyckling",
+    imageUrl:
+      "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Stek kycklingen och blanda med pasta och gräddsås.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Kycklingfilé",
+        amount: "400",
+        unit: "g",
+      },
+      {
+        ingredient: "Pasta",
+        amount: "300",
+        unit: "g",
+      },
+      {
+        ingredient: "Grädde",
+        amount: "2",
+        unit: "dl",
+      },
+      {
+        ingredient: "Parmesan",
+        amount: "50",
+        unit: "g",
+      },
+    ],
+  },
+
+  {
+    title: "Vegansk Currygryta",
+    description:
+      "Krämig currygryta med kokosmjölk och tofu.",
+    cooking_time_minutes: 25,
+    category: "Veganskt",
+    imageUrl:
+      "https://images.unsplash.com/photo-1547592180-85f173990554",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Stek tofu och tillsätt curry och kokosmjölk.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Tofu",
+        amount: "400",
+        unit: "g",
+      },
+      {
+        ingredient: "Curry",
+        amount: "2",
+        unit: "msk",
+      },
+      {
+        ingredient: "Kokosmjölk",
+        amount: "1",
+        unit: "burk",
+      },
+    ],
+  },
+
+  {
+    title: "Lax med Citron",
+    description: "Ugnsbakad lax med citron och dill.",
+    cooking_time_minutes: 35,
+    category: "Fisk",
+    imageUrl:
+      "https://images.unsplash.com/photo-1467003909585-2f8a72700288",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Baka laxen i ugnen med citron och dill.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Lax",
+        amount: "500",
+        unit: "g",
+      },
+      {
+        ingredient: "Citron",
+        amount: "1",
+        unit: "st",
+      },
+      {
+        ingredient: "Dill",
+        amount: "1",
+        unit: "knippe",
+      },
+    ],
+  },
+
+  {
+    title: "Tacowraps",
+    description:
+      "Snabba wraps med köttfärs och grönsaker.",
+    cooking_time_minutes: 20,
+    category: "Kött",
+    imageUrl:
+      "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Stek köttet och fyll tortillas med grönsaker.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Nötkött",
+        amount: "400",
+        unit: "g",
+      },
+      {
+        ingredient: "Tortilla",
+        amount: "4",
+        unit: "st",
+      },
+      {
+        ingredient: "Tomat",
+        amount: "2",
+        unit: "st",
+      },
+    ],
+  },
+
+  {
+    title: "Räkpasta",
+    description: "Krämig pasta med räkor och vitlök.",
+    cooking_time_minutes: 25,
+    category: "Skaldjur",
+    imageUrl:
+      "https://images.unsplash.com/photo-1563379091339-03246963d29a",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Koka pastan och stek räkor med vitlök.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Räka",
+        amount: "300",
+        unit: "g",
+      },
+      {
+        ingredient: "Pasta",
+        amount: "300",
+        unit: "g",
+      },
+      {
+        ingredient: "Vitlök",
+        amount: "2",
+        unit: "klyftor",
+      },
+    ],
+  },
+
+  {
+    title: "Bananpannkakor",
+    description: "Fluffiga pannkakor med banan.",
+    cooking_time_minutes: 15,
+    category: "Bak & dessert",
+    imageUrl:
+      "https://images.unsplash.com/photo-1528207776546-365bb710ee93",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Mixa ägg och banan och stek pannkakor.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Banan",
+        amount: "2",
+        unit: "st",
+      },
+      {
+        ingredient: "Ägg",
+        amount: "2",
+        unit: "st",
+      },
+    ],
+  },
+
+  {
+    title: "Hallonsmoothie",
+    description: "Frisk smoothie med hallon och yoghurt.",
+    cooking_time_minutes: 5,
+    category: "Dryck",
+    imageUrl:
+      "https://images.unsplash.com/photo-1502741338009-cac2772e18bc",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Mixa hallon och yoghurt tills smoothien är slät.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Hallon",
+        amount: "2",
+        unit: "dl",
+      },
+      {
+        ingredient: "Yoghurt",
+        amount: "2",
+        unit: "dl",
+      },
+    ],
+  },
+
+  {
+    title: "Kycklingwok",
+    description:
+      "Wokad kyckling med grönsaker och soja.",
+    cooking_time_minutes: 25,
+    category: "Kyckling",
+    imageUrl:
+      "https://images.unsplash.com/photo-1512058564366-18510be2db19",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Woka kyckling och grönsaker tillsammans.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Kycklingfilé",
+        amount: "400",
+        unit: "g",
+      },
+      {
+        ingredient: "Paprika",
+        amount: "1",
+        unit: "st",
+      },
+      {
+        ingredient: "Soja",
+        amount: "2",
+        unit: "msk",
+      },
+    ],
+  },
+
+  {
+    title: "Pesto Pasta",
+    description: "Snabb pasta med pesto och parmesan.",
+    cooking_time_minutes: 15,
+    category: "Vegetariskt",
+    imageUrl:
+      "https://images.unsplash.com/photo-1473093295043-cdd812d0e601",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Blanda nykokt pasta med pesto och parmesan.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Pasta",
+        amount: "300",
+        unit: "g",
+      },
+      {
+        ingredient: "Pesto",
+        amount: "3",
+        unit: "msk",
+      },
+      {
+        ingredient: "Parmesan",
+        amount: "50",
+        unit: "g",
+      },
+    ],
+  },
+
+  {
+    title: "Köttbullar med Ris",
+    description:
+      "Klassiska köttbullar serverade med ris.",
+    cooking_time_minutes: 40,
+    category: "Kött",
+    imageUrl:
+      "https://images.unsplash.com/photo-1529042410759-befb1204b468",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Stek köttbullarna och servera med ris.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Nötkött",
+        amount: "500",
+        unit: "g",
+      },
+      {
+        ingredient: "Ris",
+        amount: "250",
+        unit: "g",
+      },
+    ],
+  },
+
+  {
+    title: "Fiskgryta",
+    description:
+      "Krämig fiskgryta med torsk och grädde.",
+    cooking_time_minutes: 30,
+    category: "Fisk",
+    imageUrl:
+      "https://images.unsplash.com/photo-1547592180-85f173990554",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Låt torsken sjuda i gräddig sås.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Torsk",
+        amount: "400",
+        unit: "g",
+      },
+      {
+        ingredient: "Grädde",
+        amount: "2",
+        unit: "dl",
+      },
+    ],
+  },
+
+  {
+    title: "Vegobowl",
+    description:
+      "Näringsrik bowl med quinoa och tofu.",
+    cooking_time_minutes: 20,
+    category: "Veganskt",
+    imageUrl:
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Koka quinoa och servera med tofu och grönsaker.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Quinoa",
+        amount: "200",
+        unit: "g",
+      },
+      {
+        ingredient: "Tofu",
+        amount: "300",
+        unit: "g",
+      },
+    ],
+  },
+
+  {
+    title: "Mozzarella Toast",
+    description:
+      "Rostat bröd med mozzarella och tomat.",
+    cooking_time_minutes: 10,
+    category: "Vegetariskt",
+    imageUrl:
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+
+    instructions: [
+      {
+        type: "paragraph",
+        children: [
+          {
+            type: "text",
+            text:
+              "Rosta bröd och toppa med mozzarella och tomat.",
+          },
+        ],
+      },
+    ],
+
+    ingredients: [
+      {
+        ingredient: "Mozzarella",
+        amount: "1",
+        unit: "st",
+      },
+      {
+        ingredient: "Tomat",
         amount: "1",
         unit: "st",
       },
