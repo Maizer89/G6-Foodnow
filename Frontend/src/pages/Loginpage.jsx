@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
+import { loginUser } from "../services/authService";
 
 LoginPage.route = {
   path: "/login",
@@ -14,29 +14,21 @@ LoginPage.route = {
 function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
   const { login } = useAuth();
 
   async function handleLogin(e) {
     e.preventDefault();
+    setError("");
 
-    const response = await fetch("http://localhost:1337/api/auth/local", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        identifier,
-        password,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
+    try {
+      const data = await loginUser(identifier, password);
       login(data.jwt, data.user);
-
       navigate("/");
+    } catch {
+      setError("Fel användarnamn eller lösenord.");
     }
   }
 
@@ -45,7 +37,6 @@ function LoginPage() {
       <div className="auth-card">
         <div className="auth-header">
           <h1 className="auth-title">Logga in</h1>
-
           <p className="auth-subtitle">Välkommen tillbaka till FoodNow.</p>
         </div>
 
@@ -65,6 +56,8 @@ function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          {error && <p className="auth-error">{error}</p>}
 
           <Button type="submit">Logga in</Button>
         </form>
