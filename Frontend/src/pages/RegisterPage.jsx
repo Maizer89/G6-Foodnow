@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../services/authService";
+import Button from "../components/Button";
 
 RegisterPage.route = {
   path: "/register",
@@ -11,22 +13,25 @@ function RegisterPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   async function handleRegister(e) {
     e.preventDefault();
+    setError("");
+    setSuccess("");
 
-    const response = await fetch(
-      "http://localhost:1337/api/auth/local/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      },
-    );
+    try {
+      await registerUser(username, email, password);
+      setSuccess("Kontot skapades! Du skickas till inloggning...");
 
-    const data = await response.json();
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } catch (error) {
+      setError(error.message || "Kunde inte skapa konto.");
+    }
   }
 
   return (
@@ -65,6 +70,8 @@ function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && <p className="auth-error">{error}</p>}
+          {success && <p className="auth-success">{success}</p>}
 
           <Button type="submit">Skapa konto</Button>
         </form>
