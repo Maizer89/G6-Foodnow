@@ -10,7 +10,9 @@ export default function Button({
       ? "secondary-btn"
       : variant === "danger"
         ? "mr-delete-btn"
-        : "primary-btn";
+        : variant === "ghost"
+          ? "ghost-btn"
+          : "primary-btn";
 
   return (
     <button
