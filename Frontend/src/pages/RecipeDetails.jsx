@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
 import GuestFavoriteModal from "../components/GuestFavoriteModal";
-
-const API_URL = "http://localhost:1337";
+import { API_URL, getImageUrl } from "../lib/api";
+import Button from "../components/Button";
+import PageHeader from "../components/PageHeader";
 
 RecipeDetail.route = {
   path: "/recipes/:id",
@@ -39,15 +39,13 @@ function RecipeDetail() {
     return <main className="main">Laddar recept...</main>;
   }
 
-  const imageUrl = recipe.image?.url
-    ? `${API_URL}${recipe.image.url}`
-    : "/placeholder-recipe.jpg";
+  const imageUrl = getImageUrl(recipe.image);
 
   return (
     <div>
-      <button className="primary-btn back-btn" onClick={() => navigate(-1)}>
+      <Button className="back-btn" onClick={() => navigate(-1)}>
         ← Tillbaka
-      </button>
+      </Button>
       <div className="recipe-detail">
         <img
           className="recipe-detail-image"
@@ -55,10 +53,7 @@ function RecipeDetail() {
           alt={recipe.title}
         />
 
-        <div className="page-header recipe-detail-header">
-          <h1 className="page-title recipe-detail-title">{recipe.title}</h1>
-          <p className="page-subtitle">{recipe.description}</p>
-
+        <PageHeader title={recipe.title} subtitle={recipe.description}>
           <button
             className={`favorite-btn recipe-detail-favorite-btn ${
               checkIfFavorite(recipe) ? "active" : ""
@@ -68,7 +63,7 @@ function RecipeDetail() {
           >
             {checkIfFavorite(recipe) ? "♥" : "♡"}
           </button>
-        </div>
+        </PageHeader>
 
         <div className="recipe-meta">
           <span>{recipe.cooking_time_minutes} min</span>
