@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
-
-const API_URL = "http://localhost:1337";
+import { API_URL, getImageUrl } from "../lib/api";
 
 Categories.route = {
   path: "/categories",
@@ -33,9 +32,10 @@ function Categories() {
 
       <div className="category-grid">
         {categories.map((category) => {
-          const imageUrl = category.image?.url
-            ? `${API_URL}${category.image.url}`
-            : "/placeholder-category.jpg";
+          const imageUrl = getImageUrl(
+            category.image,
+            "/placeholder-category.jpg",
+          );
 
           return (
             <Link
