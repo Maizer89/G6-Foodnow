@@ -12,11 +12,11 @@ export default function IngredientFilter({
   useEffect(() => {
     async function fetchIngredients() {
       try {
-        const response = await fetch("http://localhost:1337/api/ingredients?populate=ingredient_category");
+        const response = await fetch(
+          "http://localhost:1337/api/ingredients?populate=ingredient_category",
+        );
 
         const data = await response.json();
-
-        console.log(data.data);
 
         setIngredients(data.data);
       } catch (error) {
@@ -29,34 +29,25 @@ export default function IngredientFilter({
 
   // Filtrera medan användaren skriver
   const filteredIngredients = useMemo(() => {
-  return (ingredients ?? []).filter(
-    (ingredient) => {
-      const ingredientName =
-        ingredient.name_singular?.toLowerCase() ||
-        "";
+    return (ingredients ?? []).filter((ingredient) => {
+      const ingredientName = ingredient.name_singular?.toLowerCase() || "";
 
       const categoryName =
-        ingredient.ingredient_category?.name?.toLowerCase() ||
-        "";
+        ingredient.ingredient_category?.name?.toLowerCase() || "";
 
-      const searchValue =
-        search.toLowerCase();
+      const searchValue = search.toLowerCase();
 
       return (
         ingredientName.includes(searchValue) ||
         categoryName.includes(searchValue)
       );
-    },
-  );
-}, [ingredients, search]);
+    });
+  }, [ingredients, search]);
 
   // Gruppera ingredienser efter kategori
   const groupedIngredients = useMemo(() => {
-  return filteredIngredients.reduce(
-    (groups, ingredient) => {
-      const category =
-        ingredient.ingredient_category?.name ||
-        "Övrigt";
+    return filteredIngredients.reduce((groups, ingredient) => {
+      const category = ingredient.ingredient_category?.name || "Övrigt";
 
       if (!groups[category]) {
         groups[category] = [];
@@ -65,9 +56,7 @@ export default function IngredientFilter({
       groups[category].push(ingredient);
 
       return groups;
-    },
-    {},
-  );
+    }, {});
   }, [filteredIngredients]);
 
   // Lägg till / ta bort ingredient
@@ -111,53 +100,47 @@ export default function IngredientFilter({
             overflowY: "auto",
           }}
         >
-          {Object.entries(groupedIngredients).map(
-      ([category, ingredients]) => (
-        <div
-          key={category}
-          style={{
-            marginBottom: "18px",
-          }}
-        >
-          <h3
-            style={{
-              fontSize: "14px",
-              marginBottom: "8px",
-              color: "var(--text-muted)",
-            }}
-          >
-            {category}
-          </h3>
-
-          {ingredients.map((ingredient) => (
-            <label
-              key={ingredient.id}
+          {Object.entries(groupedIngredients).map(([category, ingredients]) => (
+            <div
+              key={category}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "8px 0",
-                cursor: "pointer",
+                marginBottom: "18px",
               }}
             >
-              <input
-                type="checkbox"
-                checked={selectedIngredients.includes(
-                  ingredient.name_singular,
-                )}
-                onChange={() =>
-                  toggleIngredient(
-                    ingredient.name_singular,
-                  )
-                }
-              />
+              <h3
+                style={{
+                  fontSize: "14px",
+                  marginBottom: "8px",
+                  color: "var(--text-muted)",
+                }}
+              >
+                {category}
+              </h3>
 
-              {ingredient.name_singular}
-            </label>
+              {ingredients.map((ingredient) => (
+                <label
+                  key={ingredient.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "8px 0",
+                    cursor: "pointer",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedIngredients.includes(
+                      ingredient.name_singular,
+                    )}
+                    onChange={() => toggleIngredient(ingredient.name_singular)}
+                  />
+
+                  {ingredient.name_singular}
+                </label>
+              ))}
+            </div>
           ))}
-        </div>
-      ),
-    )}
         </div>
       )}
 

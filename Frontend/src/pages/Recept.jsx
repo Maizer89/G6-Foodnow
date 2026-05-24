@@ -32,7 +32,6 @@ function Recept() {
         );
 
         const json = await res.json();
-        console.log("Strapi recipes:", json);
 
         setRecipes(json.data || []);
       } catch (error) {
