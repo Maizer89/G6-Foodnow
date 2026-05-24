@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import RecipeCard from "../components/RecipeCard";
+
 import Button from "../components/Button";
 import PageHeader from "../components/PageHeader";
-import { API_URL } from "../lib/api";
+import RecipeCard from "../components/RecipeCard";
+
+import {
+  getRecipesByCategory,
+  getCategoryBySlug,
+} from "../services/apiService";
 
 const PAGE_SIZE = 20;
 
@@ -20,7 +25,9 @@ function CategoryRecipes() {
   const [categoryName, setCategoryName] = useState(slug);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
-  const [loading, setLoading] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setRecipes([]);
@@ -31,18 +38,11 @@ function CategoryRecipes() {
     async function fetchRecipes() {
       try {
         setLoading(true);
+        setError("");
 
-        const res = await fetch(
-          `${API_URL}/api/recipes?populate=*&filters[recipe_category][slug][$eq]=${slug}&pagination[page]=${page}&pagination[pageSize]=${PAGE_SIZE}`,
-        );
+        const json = await getRecipesByCategory(slug, page, PAGE_SIZE);
 
-        const json = await res.json();
-
-        const categoryRes = await fetch(
-          `${API_URL}/api/recipe-categories?filters[slug][$eq]=${slug}`,
-        );
-
-        const categoryJson = await categoryRes.json();
+        const categoryJson = await getCategoryBySlug(slug);
 
         if (categoryJson.data?.[0]?.name) {
           setCategoryName(categoryJson.data[0].name);
@@ -53,8 +53,8 @@ function CategoryRecipes() {
         );
 
         setPageCount(json.meta?.pagination?.pageCount || 1);
-      } catch (error) {
-        console.error("Kunde inte hämta kategorirecept:", error);
+      } catch {
+        setError("Kunde inte hämta kategorirecept.");
       } finally {
         setLoading(false);
       }
@@ -62,6 +62,14 @@ function CategoryRecipes() {
 
     fetchRecipes();
   }, [slug, page]);
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
+  if (loading && page === 1) {
+    return <div className="main">Laddar recept...</div>;
+  }
 
   return (
     <div>

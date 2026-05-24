@@ -30,3 +30,13 @@ export function getRecipeCategories() {
 export function getIngredients() {
   return request("/api/ingredients?populate=ingredient_category");
 }
+
+export function getRecipesByCategory(slug, page = 1, pageSize = 20) {
+  return request(
+    `/api/recipes?populate=*&filters[recipe_category][slug][$eq]=${slug}&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+  );
+}
+
+export function getCategoryBySlug(slug) {
+  return request(`/api/recipe-categories?filters[slug][$eq]=${slug}`);
+}
