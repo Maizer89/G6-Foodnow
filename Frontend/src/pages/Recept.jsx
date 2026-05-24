@@ -26,7 +26,7 @@ function Recept() {
     async function fetchRecipes() {
       try {
         const res = await fetch(
-          `${API_URL}/api/recipes?populate[image]=true&populate[recipe_category]=true&populate[ingredients][populate][ingredient]=true`,
+          `${API_URL}/api/recipes?populate=*`,
         );
 
         const json = await res.json();
@@ -143,11 +143,18 @@ function Recept() {
               </button>
 
               <div className="recipe-content">
-                <h2 className="recipe-title">{recipe.title}</h2>
+                <h2 className="recipe-title">
+                  {recipe.title}
+                </h2>
 
                 <div className="recipe-meta">
-                  <span>{recipe.cooking_time_minutes} min</span>
-                  <span>{recipe.ingredients?.length || 0} ingredienser</span>
+                  <span>
+                    {recipe.cooking_time_minutes} min
+                  </span>
+
+                  <span>
+                    {recipe.ingredients?.length || 0} ingredienser
+                  </span>
                 </div>
               </div>
             </Link>

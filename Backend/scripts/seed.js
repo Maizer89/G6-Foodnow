@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 function getRecipeImage(fileName) {
-  return `/recipeCardImg/${fileName}`;
+  return `Backend/public/recipeCardImg/${fileName}`;
 }
 
 const categoriesData = [
@@ -648,7 +648,7 @@ const recipesData = [
     cooking_time_minutes: 20,
     category: "Vegetariskt",
     imageUrl:
-      getRecipeImage("tomatpasta.jpg"),
+      "tomatpasta.jpg",
 
     instructions: [
       {
@@ -688,7 +688,7 @@ const recipesData = [
     cooking_time_minutes: 35,
     category: "Kyckling",
     imageUrl:
-      getRecipeImage("kycklingbowl.jpg"),
+      "kycklingbowl.jpg",
 
     instructions: [
       {
@@ -1278,32 +1278,48 @@ const recipeCategoriesData = [
 ];
 
 async function uploadImage(strapi, fileName) {
-  const filePath = path.join(
-    __dirname,
-    "..",
-    "public",
-    "recipeCategoryImages",
-    fileName,
+  const possiblePaths = [
+    path.join(
+      __dirname,
+      "..",
+      "public",
+      "recipeCategoryImages",
+      fileName,
+    ),
+
+    path.join(
+      __dirname,
+      "..",
+      "public",
+      "recipeCardImg",
+      fileName,
+    ),
+  ];
+
+  // Hitta första filen som existerar
+  const filePath = possiblePaths.find((p) =>
+    fs.existsSync(p),
   );
 
-  if (!fs.existsSync(filePath)) {
+  if (!filePath) {
     console.log(`Bild saknas: ${fileName}`);
     return null;
   }
 
   const fileStat = fs.statSync(filePath);
 
-  const uploadedFiles = await strapi.plugins.upload.services.upload.upload({
-    data: {},
-    files: {
-      filepath: filePath,
-      path: filePath,
-      name: fileName,
-      type: "image/jpeg",
-      mimetype: "image/jpeg",
-      size: fileStat.size,
-    },
-  });
+  const uploadedFiles =
+    await strapi.plugins.upload.services.upload.upload({
+      data: {},
+      files: {
+        filepath: filePath,
+        path: filePath,
+        name: fileName,
+        type: "image/jpeg",
+        mimetype: "image/jpeg",
+        size: fileStat.size,
+      },
+    });
 
   return uploadedFiles[0];
 }
@@ -1463,49 +1479,83 @@ async function seed(strapi) {
   // RECIPES
   // =====================
 
-  for (const recipe of recipesData) {
-    const formattedIngredients = recipe.ingredients.map((item) => ({
-      amount: item.amount,
-      unit: item.unit,
-      note: "",
+for (const recipe of recipesData) {
+  const formattedIngredients = recipe.ingredients.map((item) => ({
+    amount: item.amount,
+    unit: item.unit,
+    note: "",
 
-      ingredient: ingredientMap[item.ingredient],
-    }));
+    ingredient: ingredientMap[item.ingredient],
+  }));
 
-    const existingRecipe = await strapi.entityService.findMany(
-      "api::recipe.recipe",
-      {
-        filters: {
-          title: recipe.title,
-        },
-      },
-    );
-
-    if (existingRecipe.length > 0) {
-      console.log(`Recept finns redan: ${recipe.title}`);
-
-      continue;
-    }
-
-    await strapi.entityService.create("api::recipe.recipe", {
-      data: {
+  const existingRecipe = await strapi.entityService.findMany(
+    "api::recipe.recipe",
+    {
+      filters: {
         title: recipe.title,
-        description: recipe.description,
-
-        cooking_time_minutes: recipe.cooking_time_minutes,
-
-        instructions: recipe.instructions,
-
-        ingredients: formattedIngredients,
-
-        publishedAt: new Date(),
       },
-    });
+    },
+  );
 
-    console.log(`Recept skapat: ${recipe.title}`);
+  if (existingRecipe.length > 0) {
+    console.log(`Recept finns redan: ${recipe.title}`);
+
+    continue;
   }
 
-  console.log("Seed klar!");
+  // =====================
+  // UPLOAD RECIPE IMAGE
+  // =====================
+
+  const uploadedImage = await uploadImage(
+    strapi,
+    recipe.imageUrl,
+  );
+
+  // =====================
+  // CREATE RECIPE
+  // =====================
+
+  await strapi.entityService.create(
+    "api::recipe.recipe",
+    {
+      data: {
+        title: recipe.title,
+
+        description:
+          recipe.description,
+
+        cooking_time_minutes:
+          recipe.cooking_time_minutes,
+
+        instructions:
+          recipe.instructions,
+
+        ingredients:
+          formattedIngredients,
+
+        // CATEGORY RELATION
+        recipe_category:
+          recipeCategoryMap[
+            recipe.category
+          ],
+
+        // IMAGE RELATION
+        image:
+          uploadedImage?.id || null,
+
+        publishedAt:
+          new Date(),
+      },
+    },
+  );
+
+  console.log(
+    `Recept skapat: ${recipe.title}`,
+  );
+}
+
+console.log("Seed klar!");
 }
 
 module.exports = seed;
