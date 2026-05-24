@@ -61,7 +61,7 @@ function CategoryRecipes() {
   }, [slug, page]);
 
   return (
-    <main className="main">
+    <div>
       <button className="primary-btn back-btn" onClick={() => navigate(-1)}>
         ← Tillbaka
       </button>
@@ -110,7 +110,7 @@ function CategoryRecipes() {
           {loading ? "Laddar..." : "Hämta fler"}
         </button>
       )}
-    </main>
+    </div>
   );
 }
 

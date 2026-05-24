@@ -15,7 +15,12 @@ function RecipeDetail() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const navigate = useNavigate();
-  const { toggleFavorite, isGuestModalOpen, setIsGuestModalOpen, checkIfFavorite } = useFavoriteToggle();
+  const {
+    toggleFavorite,
+    isGuestModalOpen,
+    setIsGuestModalOpen,
+    checkIfFavorite,
+  } = useFavoriteToggle();
 
   useEffect(() => {
     async function fetchRecipe() {
@@ -39,11 +44,8 @@ function RecipeDetail() {
     : "/placeholder-recipe.jpg";
 
   return (
-    <main className="main">
-      <button
-        className="primary-btn back-btn"
-        onClick={() => navigate(-1)}
-      >
+    <div>
+      <button className="primary-btn back-btn" onClick={() => navigate(-1)}>
         ← Tillbaka
       </button>
       <div className="recipe-detail">
@@ -56,7 +58,7 @@ function RecipeDetail() {
         <div className="page-header recipe-detail-header">
           <h1 className="page-title recipe-detail-title">{recipe.title}</h1>
           <p className="page-subtitle">{recipe.description}</p>
-          
+
           <button
             className={`favorite-btn recipe-detail-favorite-btn ${
               checkIfFavorite(recipe) ? "active" : ""
@@ -97,11 +99,11 @@ function RecipeDetail() {
         </section>
       </div>
 
-      <GuestFavoriteModal 
-        isOpen={isGuestModalOpen} 
-        onClose={() => setIsGuestModalOpen(false)} 
+      <GuestFavoriteModal
+        isOpen={isGuestModalOpen}
+        onClose={() => setIsGuestModalOpen(false)}
       />
-    </main>
+    </div>
   );
 }
 

@@ -63,7 +63,9 @@ function ProfilePage() {
         throw new Error("Inget filsvar mottogs från servern.");
       }
     } catch (err) {
-      setUploadError(err.message || "Ett fel uppstod vid uppladdning av bilden.");
+      setUploadError(
+        err.message || "Ett fel uppstod vid uppladdning av bilden.",
+      );
     } finally {
       setUploading(false);
       if (fileInputRef.current) {
@@ -81,14 +83,17 @@ function ProfilePage() {
 
     try {
       const jwt = localStorage.getItem("jwt");
-      const response = await fetch(`http://localhost:1337/api/users/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
+      const response = await fetch(
+        `http://localhost:1337/api/users/${user.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify({ profilePic: null }),
         },
-        body: JSON.stringify({ profilePic: null }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Misslyckades att ta bort bilden från servern.");
@@ -98,7 +103,9 @@ function ProfilePage() {
       setUploadSuccess("Profilbilden har tagits bort!");
       setTimeout(() => setUploadSuccess(""), 4000);
     } catch (err) {
-      setUploadError(err.message || "Ett fel uppstod vid borttagning av bilden.");
+      setUploadError(
+        err.message || "Ett fel uppstod vid borttagning av bilden.",
+      );
     } finally {
       setUploading(false);
     }
@@ -113,11 +120,13 @@ function ProfilePage() {
   const email = user?.email || "Ingen e-post";
   const profilePicUrl = user?.profilePic?.url;
   const avatarUrl = profilePicUrl
-    ? (profilePicUrl.startsWith("http") ? profilePicUrl : `http://localhost:1337${profilePicUrl}`)
+    ? profilePicUrl.startsWith("http")
+      ? profilePicUrl
+      : `http://localhost:1337${profilePicUrl}`
     : `https://ui-avatars.com/api/?name=${username}`;
 
   return (
-    <main className="main">
+    <div>
       <div className="page-header">
         <h1 className="page-title">Min profil</h1>
         <p className="page-subtitle">Hantera ditt konto och dina recept.</p>
@@ -226,7 +235,12 @@ function ProfilePage() {
 
           <div className="settings-item">
             <span>Byt lösenord</span>
-            <button className="secondary-btn" onClick={() => setIsPasswordModalOpen(true)}>Ändra</button>
+            <button
+              className="secondary-btn"
+              onClick={() => setIsPasswordModalOpen(true)}
+            >
+              Ändra
+            </button>
           </div>
         </div>
 
@@ -264,7 +278,7 @@ function ProfilePage() {
         isOpen={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
       />
-    </main>
+    </div>
   );
 }
 

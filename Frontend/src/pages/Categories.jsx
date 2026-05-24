@@ -24,7 +24,7 @@ function Categories() {
   }, []);
 
   return (
-    <main className="main">
+    <div>
       <div className="page-header">
         <h1 className="page-title">Kategorier</h1>
         <p className="page-subtitle">
@@ -50,7 +50,7 @@ function Categories() {
           );
         })}
       </div>
-    </main>
+    </div>
   );
 }
 

@@ -15,12 +15,14 @@ const API_URL = "http://localhost:1337";
 function Recept() {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
-  const { toggleFavorite, isGuestModalOpen, setIsGuestModalOpen, checkIfFavorite } = useFavoriteToggle();
+  const {
+    toggleFavorite,
+    isGuestModalOpen,
+    setIsGuestModalOpen,
+    checkIfFavorite,
+  } = useFavoriteToggle();
 
-  const [
-    selectedIngredients,
-    setSelectedIngredients,
-  ] = useState([]);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   useEffect(() => {
     async function fetchRecipes() {
@@ -41,49 +43,34 @@ function Recept() {
     fetchRecipes();
   }, []);
 
-  const filteredRecipes = recipes.filter(
-    (recipe) => {
-      // Filtrera på titel
-      const matchesSearch =
-        recipe.title
-          ?.toLowerCase()
-          .includes(search.toLowerCase());
+  const filteredRecipes = recipes.filter((recipe) => {
+    // Filtrera på titel
+    const matchesSearch = recipe.title
+      ?.toLowerCase()
+      .includes(search.toLowerCase());
 
-      // Om inga ingredients är valda
-      // visa alla recept
-      if (
-        selectedIngredients.length === 0
-      ) {
-        return matchesSearch;
-      }
+    // Om inga ingredients är valda
+    // visa alla recept
+    if (selectedIngredients.length === 0) {
+      return matchesSearch;
+    }
 
-      // Hämta ingredient names från receptet
-      const recipeIngredientNames =
-        recipe.ingredients.map(
-          (item) =>
-            item.ingredient
-              ?.name_singular,
-        );
+    // Hämta ingredient names från receptet
+    const recipeIngredientNames = recipe.ingredients.map(
+      (item) => item.ingredient?.name_singular,
+    );
 
-      // Kontrollera om receptet innehåller
-      // alla valda ingredients
-      const matchesIngredients =
-        selectedIngredients.every(
-          (selectedIngredient) =>
-            recipeIngredientNames.includes(
-              selectedIngredient,
-            ),
-        );
+    // Kontrollera om receptet innehåller
+    // alla valda ingredients
+    const matchesIngredients = selectedIngredients.every((selectedIngredient) =>
+      recipeIngredientNames.includes(selectedIngredient),
+    );
 
-      return (
-        matchesSearch &&
-        matchesIngredients
-      );
-    },
-  );
+    return matchesSearch && matchesIngredients;
+  });
 
   return (
-    <main className="main">
+    <div>
       <div className="page-header">
         <h1 className="page-title">Vad vill du laga?</h1>
         <p className="page-subtitle">
@@ -104,14 +91,10 @@ function Recept() {
           +
         </button>
       </div>
-      
+
       <IngredientFilter
-        selectedIngredients={
-          selectedIngredients
-        }
-        setSelectedIngredients={
-          setSelectedIngredients
-        }
+        selectedIngredients={selectedIngredients}
+        setSelectedIngredients={setSelectedIngredients}
       />
 
       <div className="recipe-count">
@@ -155,11 +138,11 @@ function Recept() {
         })}
       </div>
 
-      <GuestFavoriteModal 
-        isOpen={isGuestModalOpen} 
-        onClose={() => setIsGuestModalOpen(false)} 
+      <GuestFavoriteModal
+        isOpen={isGuestModalOpen}
+        onClose={() => setIsGuestModalOpen(false)}
       />
-    </main>
+    </div>
   );
 }
 

@@ -24,7 +24,7 @@ export default function FavoritesPage() {
       }
 
       const qs = favorites
-        .filter(f => f.documentId)
+        .filter((f) => f.documentId)
         .map((f, i) => `filters[documentId][$in][${i}]=${f.documentId}`)
         .join("&");
 
@@ -49,7 +49,7 @@ export default function FavoritesPage() {
     e.stopPropagation();
 
     const newFavorites = favorites.filter(
-      (fav) => fav.documentId !== recipeId && fav.id !== recipeId
+      (fav) => fav.documentId !== recipeId && fav.id !== recipeId,
     );
     const favoriteIds = newFavorites.map((f) => f.documentId);
 
@@ -66,9 +66,12 @@ export default function FavoritesPage() {
 
       if (response.ok) {
         updateUser({ ...user, favorites: newFavorites });
-        const resPop = await fetch(`${API_URL}/api/users/me?populate[profilePic]=true&populate[favorites]=true`, {
-          headers: { Authorization: `Bearer ${jwt}` }
-        });
+        const resPop = await fetch(
+          `${API_URL}/api/users/me?populate[profilePic]=true&populate[favorites]=true`,
+          {
+            headers: { Authorization: `Bearer ${jwt}` },
+          },
+        );
         if (resPop.ok) {
           updateUser(await resPop.json());
         }
@@ -82,7 +85,7 @@ export default function FavoritesPage() {
   }
 
   return (
-    <main className="main favorites-layout">
+    <div className="favorites-layout">
       <div className="page-header">
         <h1 className="page-title">Mina Favoriter</h1>
         <p className="page-subtitle">Dina sparade favoritrecept.</p>
@@ -114,15 +117,30 @@ export default function FavoritesPage() {
                   className="remove-favorite-btn"
                   title="Ta bort från favoriter"
                   type="button"
-                  onClick={(e) => handleRemoveFavorite(e, recipe.documentId || recipe.id)}
+                  onClick={(e) =>
+                    handleRemoveFavorite(e, recipe.documentId || recipe.id)
+                  }
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
                 </button>
               </Link>
             );
           })}
         </div>
       )}
-    </main>
+    </div>
   );
 }
