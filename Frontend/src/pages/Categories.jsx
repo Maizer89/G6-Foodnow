@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PageHeader from "../components/PageHeader";
 
 const API_URL = "http://localhost:1337";
 
