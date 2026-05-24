@@ -647,8 +647,7 @@ const recipesData = [
     description: "En snabb och krämig pasta med tomatsås.",
     cooking_time_minutes: 20,
     category: "Vegetariskt",
-    imageUrl:
-      getRecipeImage("tomatpasta.jpg"),
+    imageUrl: getRecipeImage("tomatpasta.jpg"),
 
     instructions: [
       {
@@ -656,8 +655,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Koka pastan och blanda med tomatsås och ost.",
+            text: "Koka pastan och blanda med tomatsås och ost.",
           },
         ],
       },
@@ -687,8 +685,7 @@ const recipesData = [
     description: "Saftig kyckling med vitlökssmör.",
     cooking_time_minutes: 35,
     category: "Kyckling",
-    imageUrl:
-      getRecipeImage("kycklingbowl.jpg"),
+    imageUrl: getRecipeImage("kycklingbowl.jpg"),
 
     instructions: [
       {
@@ -696,8 +693,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Stek kycklingen och tillsätt vitlök och smör.",
+            text: "Stek kycklingen och tillsätt vitlök och smör.",
           },
         ],
       },
@@ -727,8 +723,7 @@ const recipesData = [
     description: "En enkel wok med ris och grönsaker.",
     cooking_time_minutes: 25,
     category: "Vegetariskt",
-    imageUrl:
-      getRecipeImage("riswok.jpg"),
+    imageUrl: getRecipeImage("riswok.jpg"),
 
     instructions: [
       {
@@ -736,8 +731,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Stek grönsakerna och servera med ris.",
+            text: "Stek grönsakerna och servera med ris.",
           },
         ],
       },
@@ -764,12 +758,10 @@ const recipesData = [
 
   {
     title: "Chicken Alfredo",
-    description:
-      "Krämig pasta med kyckling och parmesan.",
+    description: "Krämig pasta med kyckling och parmesan.",
     cooking_time_minutes: 30,
     category: "Kyckling",
-    imageUrl:
-      getRecipeImage("pastaalfredo.jpg"),
+    imageUrl: getRecipeImage("pastaalfredo.jpg"),
 
     instructions: [
       {
@@ -777,8 +769,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Stek kycklingen och blanda med pasta och gräddsås.",
+            text: "Stek kycklingen och blanda med pasta och gräddsås.",
           },
         ],
       },
@@ -810,12 +801,10 @@ const recipesData = [
 
   {
     title: "Vegansk Currygryta",
-    description:
-      "Krämig currygryta med kokosmjölk och tofu.",
+    description: "Krämig currygryta med kokosmjölk och tofu.",
     cooking_time_minutes: 25,
     category: "Veganskt",
-    imageUrl:
-      getRecipeImage("curry.jpg"),
+    imageUrl: getRecipeImage("curry.jpg"),
 
     instructions: [
       {
@@ -823,8 +812,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Stek tofu och tillsätt curry och kokosmjölk.",
+            text: "Stek tofu och tillsätt curry och kokosmjölk.",
           },
         ],
       },
@@ -854,8 +842,7 @@ const recipesData = [
     description: "Ugnsbakad lax med citron och dill.",
     cooking_time_minutes: 35,
     category: "Fisk",
-    imageUrl:
-      getRecipeImage("lax.jpg"),
+    imageUrl: getRecipeImage("lax.jpg"),
 
     instructions: [
       {
@@ -863,8 +850,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Baka laxen i ugnen med citron och dill.",
+            text: "Baka laxen i ugnen med citron och dill.",
           },
         ],
       },
@@ -891,12 +877,10 @@ const recipesData = [
 
   {
     title: "Tacowraps",
-    description:
-      "Snabba wraps med köttfärs och grönsaker.",
+    description: "Snabba wraps med köttfärs och grönsaker.",
     cooking_time_minutes: 20,
     category: "Kött",
-    imageUrl:
-      getRecipeImage("tacowraps.jpg"),
+    imageUrl: getRecipeImage("tacowraps.jpg"),
 
     instructions: [
       {
@@ -904,8 +888,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Stek köttet och fyll tortillas med grönsaker.",
+            text: "Stek köttet och fyll tortillas med grönsaker.",
           },
         ],
       },
@@ -935,8 +918,7 @@ const recipesData = [
     description: "Krämig pasta med räkor och vitlök.",
     cooking_time_minutes: 25,
     category: "Skaldjur",
-    imageUrl:
-      getRecipeImage("rakpasta.jpg"),
+    imageUrl: getRecipeImage("rakpasta.jpg"),
 
     instructions: [
       {
@@ -944,8 +926,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Koka pastan och stek räkor med vitlök.",
+            text: "Koka pastan och stek räkor med vitlök.",
           },
         ],
       },
@@ -975,8 +956,7 @@ const recipesData = [
     description: "Fluffiga pannkakor med banan.",
     cooking_time_minutes: 15,
     category: "Bak & dessert",
-    imageUrl:
-      getRecipeImage("bananpannkakor.jpg"),
+    imageUrl: getRecipeImage("bananpannkakor.jpg"),
 
     instructions: [
       {
@@ -984,8 +964,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Mixa ägg och banan och stek pannkakor.",
+            text: "Mixa ägg och banan och stek pannkakor.",
           },
         ],
       },
@@ -1010,8 +989,7 @@ const recipesData = [
     description: "Frisk smoothie med hallon och yoghurt.",
     cooking_time_minutes: 5,
     category: "Dryck",
-    imageUrl:
-      getRecipeImage("hallonsmoothie.jpg"),
+    imageUrl: getRecipeImage("hallonsmoothie.jpg"),
 
     instructions: [
       {
@@ -1019,8 +997,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Mixa hallon och yoghurt tills smoothien är slät.",
+            text: "Mixa hallon och yoghurt tills smoothien är slät.",
           },
         ],
       },
@@ -1042,12 +1019,10 @@ const recipesData = [
 
   {
     title: "Kycklingwok",
-    description:
-      "Wokad kyckling med grönsaker och soja.",
+    description: "Wokad kyckling med grönsaker och soja.",
     cooking_time_minutes: 25,
     category: "Kyckling",
-    imageUrl:
-      getRecipeImage("kycklingwok.jpg"),
+    imageUrl: getRecipeImage("kycklingwok.jpg"),
 
     instructions: [
       {
@@ -1055,8 +1030,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Woka kyckling och grönsaker tillsammans.",
+            text: "Woka kyckling och grönsaker tillsammans.",
           },
         ],
       },
@@ -1086,8 +1060,7 @@ const recipesData = [
     description: "Snabb pasta med pesto och parmesan.",
     cooking_time_minutes: 15,
     category: "Vegetariskt",
-    imageUrl:
-      getRecipeImage("pestapasta.jpg"),
+    imageUrl: getRecipeImage("pestapasta.jpg"),
 
     instructions: [
       {
@@ -1095,8 +1068,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Blanda nykokt pasta med pesto och parmesan.",
+            text: "Blanda nykokt pasta med pesto och parmesan.",
           },
         ],
       },
@@ -1123,12 +1095,10 @@ const recipesData = [
 
   {
     title: "Köttbullar med Ris",
-    description:
-      "Klassiska köttbullar serverade med ris.",
+    description: "Klassiska köttbullar serverade med ris.",
     cooking_time_minutes: 40,
     category: "Kött",
-    imageUrl:
-      getRecipeImage("kottbullarmedris.jpg"),
+    imageUrl: getRecipeImage("kottbullarmedris.jpg"),
 
     instructions: [
       {
@@ -1136,8 +1106,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Stek köttbullarna och servera med ris.",
+            text: "Stek köttbullarna och servera med ris.",
           },
         ],
       },
@@ -1159,12 +1128,10 @@ const recipesData = [
 
   {
     title: "Fiskgryta",
-    description:
-      "Krämig fiskgryta med torsk och grädde.",
+    description: "Krämig fiskgryta med torsk och grädde.",
     cooking_time_minutes: 30,
     category: "Fisk",
-    imageUrl:
-      getRecipeImage("fiskgryta.jpg"),
+    imageUrl: getRecipeImage("fiskgryta.jpg"),
 
     instructions: [
       {
@@ -1172,8 +1139,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Låt torsken sjuda i gräddig sås.",
+            text: "Låt torsken sjuda i gräddig sås.",
           },
         ],
       },
@@ -1195,12 +1161,10 @@ const recipesData = [
 
   {
     title: "Vegobowl",
-    description:
-      "Näringsrik bowl med quinoa och tofu.",
+    description: "Näringsrik bowl med quinoa och tofu.",
     cooking_time_minutes: 20,
     category: "Veganskt",
-    imageUrl:
-      getRecipeImage("vegobowl.jpg"),
+    imageUrl: getRecipeImage("vegobowl.jpg"),
 
     instructions: [
       {
@@ -1208,8 +1172,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Koka quinoa och servera med tofu och grönsaker.",
+            text: "Koka quinoa och servera med tofu och grönsaker.",
           },
         ],
       },
@@ -1231,12 +1194,10 @@ const recipesData = [
 
   {
     title: "Mozzarella Toast",
-    description:
-      "Rostat bröd med mozzarella och tomat.",
+    description: "Rostat bröd med mozzarella och tomat.",
     cooking_time_minutes: 10,
     category: "Vegetariskt",
-    imageUrl:
-      getRecipeImage("mozarellatoast.jpg"),
+    imageUrl: getRecipeImage("mozarellatoast.jpg"),
 
     instructions: [
       {
@@ -1244,8 +1205,7 @@ const recipesData = [
         children: [
           {
             type: "text",
-            text:
-              "Rosta bröd och toppa med mozzarella och tomat.",
+            text: "Rosta bröd och toppa med mozzarella och tomat.",
           },
         ],
       },
@@ -1313,8 +1273,6 @@ async function uploadImage(strapi, fileName) {
 // =====================
 
 async function seed(strapi) {
-  console.log("Startar seed...");
-
   const categoryMap = {};
   const ingredientMap = {};
   const recipeCategoryMap = {};
@@ -1337,8 +1295,6 @@ async function seed(strapi) {
 
     if (existingCategory.length > 0) {
       categoryId = existingCategory[0].id;
-
-      console.log(`Kategori finns redan: ${categoryName}`);
     } else {
       const createdCategory = await strapi.entityService.create(
         "api::ingredient-category.ingredient-category",
@@ -1360,8 +1316,6 @@ async function seed(strapi) {
       );
 
       categoryId = createdCategory.id;
-
-      console.log(`Kategori skapad: ${categoryName}`);
     }
 
     categoryMap[categoryName] = categoryId;
@@ -1403,8 +1357,6 @@ async function seed(strapi) {
       );
 
       categoryId = createdCategory.id;
-
-      console.log(`Receptkategori skapad: ${category.name}`);
     }
 
     recipeCategoryMap[category.name] = categoryId;
@@ -1452,8 +1404,6 @@ async function seed(strapi) {
       );
 
       ingredientId = createdIngredient.id;
-
-      console.log(`Ingrediens skapad: ${ingredient.name_singular}`);
     }
 
     ingredientMap[ingredient.name_singular] = ingredientId;
@@ -1501,11 +1451,7 @@ async function seed(strapi) {
         publishedAt: new Date(),
       },
     });
-
-    console.log(`Recept skapat: ${recipe.title}`);
   }
-
-  console.log("Seed klar!");
 }
 
 module.exports = seed;

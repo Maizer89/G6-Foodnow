@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useMyRecept } from "../hooks/useMyRecept";
 import ChangePasswordModal from "../components/ChangePasswordModal";
+import PageHeader from "../components/PageHeader";
+import Button from "../components/Button";
 
 ProfilePage.route = {
   path: "/profile",
@@ -63,7 +65,9 @@ function ProfilePage() {
         throw new Error("Inget filsvar mottogs från servern.");
       }
     } catch (err) {
-      setUploadError(err.message || "Ett fel uppstod vid uppladdning av bilden.");
+      setUploadError(
+        err.message || "Ett fel uppstod vid uppladdning av bilden.",
+      );
     } finally {
       setUploading(false);
       if (fileInputRef.current) {
@@ -81,14 +85,17 @@ function ProfilePage() {
 
     try {
       const jwt = localStorage.getItem("jwt");
-      const response = await fetch(`http://localhost:1337/api/users/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
+      const response = await fetch(
+        `http://localhost:1337/api/users/${user.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify({ profilePic: null }),
         },
-        body: JSON.stringify({ profilePic: null }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Misslyckades att ta bort bilden från servern.");
@@ -98,7 +105,9 @@ function ProfilePage() {
       setUploadSuccess("Profilbilden har tagits bort!");
       setTimeout(() => setUploadSuccess(""), 4000);
     } catch (err) {
-      setUploadError(err.message || "Ett fel uppstod vid borttagning av bilden.");
+      setUploadError(
+        err.message || "Ett fel uppstod vid borttagning av bilden.",
+      );
     } finally {
       setUploading(false);
     }
@@ -113,15 +122,17 @@ function ProfilePage() {
   const email = user?.email || "Ingen e-post";
   const profilePicUrl = user?.profilePic?.url;
   const avatarUrl = profilePicUrl
-    ? (profilePicUrl.startsWith("http") ? profilePicUrl : `http://localhost:1337${profilePicUrl}`)
+    ? profilePicUrl.startsWith("http")
+      ? profilePicUrl
+      : `http://localhost:1337${profilePicUrl}`
     : `https://ui-avatars.com/api/?name=${username}`;
 
   return (
-    <main className="main">
-      <div className="page-header">
-        <h1 className="page-title">Min profil</h1>
-        <p className="page-subtitle">Hantera ditt konto och dina recept.</p>
-      </div>
+    <div>
+      <PageHeader
+        title="Min profil"
+        subtitle="Hantera ditt konto och dina recept."
+      />
 
       {uploadError && (
         <div className="alert alert-error" role="alert">
@@ -206,56 +217,56 @@ function ProfilePage() {
             <span>Ändra profilbild</span>
             <div className="profile-actions">
               {user?.profilePic && (
-                <button
-                  className="secondary-btn"
+                <Button
+                  variant="secondary"
                   onClick={handleRemoveImage}
                   disabled={uploading}
                 >
                   Ta bort
-                </button>
+                </Button>
               )}
-              <button
-                className="secondary-btn"
+              <Button
+                variant="secondary"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
               >
                 {uploading ? "Laddar..." : "Ändra"}
-              </button>
+              </Button>
             </div>
           </div>
 
           <div className="settings-item">
             <span>Byt lösenord</span>
-            <button className="secondary-btn" onClick={() => setIsPasswordModalOpen(true)}>Ändra</button>
+            <Button
+              variant="secondary"
+              onClick={() => setIsPasswordModalOpen(true)}
+            >
+              Ändra
+            </Button>
           </div>
         </div>
 
         <div className="settings-card">
           <div className="settings-item">
             <span>Mina recept</span>
-            <button
-              className="secondary-btn"
-              onClick={() => navigate("/my-recept")}
-            >
+            <Button variant="secondary" onClick={() => navigate("/my-recept")}>
               Visa
-            </button>
+            </Button>
           </div>
 
           <div className="settings-item">
             <span>Skapa recept</span>
-            <button
-              className="secondary-btn"
+            <Button
+              variant="secondary"
               onClick={() => navigate("/create-recept")}
             >
               Skapa
-            </button>
+            </Button>
           </div>
 
           <div className="settings-item">
             <span>Logga ut</span>
-            <button className="primary-btn" onClick={handleLogout}>
-              Logga ut
-            </button>
+            <Button onClick={handleLogout}>Logga ut</Button>
           </div>
         </div>
       </div>
@@ -264,7 +275,7 @@ function ProfilePage() {
         isOpen={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
       />
-    </main>
+    </div>
   );
 }
 

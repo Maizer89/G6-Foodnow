@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-const API_URL = "http://localhost:1337";
+import PageHeader from "../components/PageHeader";
+import { getImageUrl } from "../lib/api";
+import { getRecipeCategories } from "../services/apiService";
 
 Categories.route = {
   path: "/categories",
@@ -11,32 +12,47 @@ Categories.route = {
 
 function Categories() {
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchCategories() {
-      const res = await fetch(`${API_URL}/api/recipe-categories?populate=*`);
-      const json = await res.json();
+      try {
+        setLoading(true);
 
-      setCategories(json.data || []);
+        const json = await getRecipeCategories();
+        setCategories(json.data || []);
+      } catch {
+        setError("Kunde inte hämta kategorier.");
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchCategories();
   }, []);
 
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
+  if (loading) {
+    return <div>Laddar kategorier...</div>;
+  }
+
   return (
-    <main className="main">
-      <div className="page-header">
-        <h1 className="page-title">Kategorier</h1>
-        <p className="page-subtitle">
-          Välj en kategori för att se matchande recept.
-        </p>
-      </div>
+    <div>
+      <PageHeader
+        title="Kategorier"
+        subtitle="Välj en kategori för att se matchande recept."
+      />
 
       <div className="category-grid">
         {categories.map((category) => {
-          const imageUrl = category.image?.url
-            ? `${API_URL}${category.image.url}`
-            : "/placeholder-category.jpg";
+          const imageUrl = getImageUrl(
+            category.image,
+            "/placeholder-category.jpg",
+          );
 
           return (
             <Link
@@ -50,7 +66,7 @@ function Categories() {
           );
         })}
       </div>
-    </main>
+    </div>
   );
 }
 

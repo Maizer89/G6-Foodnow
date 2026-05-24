@@ -94,7 +94,5 @@ module.exports = async function seedRecipeCategories(strapi) {
         image: uploadedImage.id,
       },
     });
-
-    console.log(`Kategori skapad: ${category.name}`);
   }
 };

@@ -48,8 +48,6 @@ async function updateRolePermissions(strapi, roleType, actions) {
     ...fullRole,
     permissions: updatedPermissions,
   });
-
-  console.log(`Permissions uppdaterade för ${roleType}`);
 }
 
 module.exports = {

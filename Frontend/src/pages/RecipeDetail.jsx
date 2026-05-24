@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
 import GuestFavoriteModal from "../components/GuestFavoriteModal";
-
-const API_URL = "http://localhost:1337";
+import { getImageUrl } from "../lib/api";
+import Button from "../components/Button";
+import PageHeader from "../components/PageHeader";
+import { getRecipeById } from "../services/apiService";
 
 RecipeDetail.route = {
   path: "/recipes/:id",
@@ -14,38 +15,43 @@ RecipeDetail.route = {
 function RecipeDetail() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { toggleFavorite, isGuestModalOpen, setIsGuestModalOpen, checkIfFavorite } = useFavoriteToggle();
+  const {
+    toggleFavorite,
+    isGuestModalOpen,
+    setIsGuestModalOpen,
+    checkIfFavorite,
+  } = useFavoriteToggle();
 
   useEffect(() => {
     async function fetchRecipe() {
-      const res = await fetch(
-        `${API_URL}/api/recipes/${id}?populate[image]=true&populate[recipe_category]=true&populate[ingredients][populate][ingredient]=true`,
-      );
-
-      const json = await res.json();
-      setRecipe(json.data);
+      try {
+        const json = await getRecipeById(id);
+        setRecipe(json.data);
+      } catch {
+        setError("Kunde inte hämta receptet.");
+      }
     }
 
     fetchRecipe();
   }, [id]);
 
-  if (!recipe) {
-    return <main className="main">Laddar recept...</main>;
+  if (error) {
+    return <div className="error-message">{error}</div>;
   }
 
-  const imageUrl = recipe.image?.url
-    ? `${API_URL}${recipe.image.url}`
-    : "/placeholder-recipe.jpg";
+  if (!recipe) {
+    return <main>Laddar recept...</main>;
+  }
+
+  const imageUrl = getImageUrl(recipe.image);
 
   return (
-    <main className="main">
-      <button
-        className="primary-btn back-btn"
-        onClick={() => navigate(-1)}
-      >
+    <div>
+      <Button className="back-btn" onClick={() => navigate(-1)}>
         ← Tillbaka
-      </button>
+      </Button>
       <div className="recipe-detail">
         <img
           className="recipe-detail-image"
@@ -53,10 +59,7 @@ function RecipeDetail() {
           alt={recipe.title}
         />
 
-        <div className="page-header recipe-detail-header">
-          <h1 className="page-title recipe-detail-title">{recipe.title}</h1>
-          <p className="page-subtitle">{recipe.description}</p>
-          
+        <PageHeader title={recipe.title} subtitle={recipe.description}>
           <button
             className={`favorite-btn recipe-detail-favorite-btn ${
               checkIfFavorite(recipe) ? "active" : ""
@@ -66,7 +69,7 @@ function RecipeDetail() {
           >
             {checkIfFavorite(recipe) ? "♥" : "♡"}
           </button>
-        </div>
+        </PageHeader>
 
         <div className="recipe-meta">
           <span>{recipe.cooking_time_minutes} min</span>
@@ -97,11 +100,11 @@ function RecipeDetail() {
         </section>
       </div>
 
-      <GuestFavoriteModal 
-        isOpen={isGuestModalOpen} 
-        onClose={() => setIsGuestModalOpen(false)} 
+      <GuestFavoriteModal
+        isOpen={isGuestModalOpen}
+        onClose={() => setIsGuestModalOpen(false)}
       />
-    </main>
+    </div>
   );
 }
 

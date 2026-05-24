@@ -12,30 +12,37 @@ CreateRecept.route = {
 function CreateRecept() {
   const navigate = useNavigate();
   const {
-    title, setTitle,
-    description, setDescription,
-    instructions, setInstructions,
-    cookingTime, setCookingTime,
-    images, setImages,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    instructions,
+    setInstructions,
+    cookingTime,
+    setCookingTime,
+    images,
+    setImages,
     fileInputRef,
     ingredientsList,
     selectedIngredients,
-    error, setError,
+    error,
+    setError,
     success,
     isLoading,
-    showAllIngredients, setShowAllIngredients,
+    showAllIngredients,
+    setShowAllIngredients,
     imagePreviewUrls,
     handleCheckboxChange,
     handleCreate,
     MAX_IMAGE_COUNT,
     MAX_IMAGE_SIZE_BYTES,
-    ALLOWED_IMAGE_TYPES
+    ALLOWED_IMAGE_TYPES,
   } = useCreateRecept();
 
   if (isLoading) return <p>Laddar ingredienser...</p>;
 
   return (
-    <div className="main create-recept-page">
+    <div className="create-recept-page">
       <div className="page-header">
         <button
           className="primary-btn"
