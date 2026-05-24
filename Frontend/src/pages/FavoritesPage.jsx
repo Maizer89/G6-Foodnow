@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import PageHeader from "../components/PageHeader";
+import { API_URL, getImageUrl } from "../lib/api";
 
 FavoritesPage.route = {
   path: "/favorites",
   label: "Favoriter",
   authOnly: true,
 };
-
-const API_URL = "http://localhost:1337";
 
 export default function FavoritesPage() {
   const { user, updateUser } = useAuth();
@@ -97,9 +96,7 @@ export default function FavoritesPage() {
       ) : (
         <div className="favorite-list">
           {fullFavorites.map((recipe) => {
-            const imageUrl = recipe.image?.url
-              ? `${API_URL}${recipe.image.url}`
-              : "/placeholder-recipe.jpg";
+            const imageUrl = getImageUrl(recipe.image);
 
             return (
               <Link
