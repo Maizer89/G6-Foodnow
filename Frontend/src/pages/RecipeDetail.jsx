@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
 import GuestFavoriteModal from "../components/GuestFavoriteModal";
-import { API_URL, getImageUrl } from "../lib/api";
+import { getImageUrl } from "../lib/api";
 import Button from "../components/Button";
 import PageHeader from "../components/PageHeader";
+import { getRecipeById } from "../services/apiService";
 
 RecipeDetail.route = {
   path: "/recipes/:id",
@@ -14,6 +15,7 @@ RecipeDetail.route = {
 function RecipeDetail() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const {
     toggleFavorite,
@@ -24,16 +26,20 @@ function RecipeDetail() {
 
   useEffect(() => {
     async function fetchRecipe() {
-      const res = await fetch(
-        `${API_URL}/api/recipes/${id}?populate[image]=true&populate[recipe_category]=true&populate[ingredients][populate][ingredient]=true`,
-      );
-
-      const json = await res.json();
-      setRecipe(json.data);
+      try {
+        const json = await getRecipeById(id);
+        setRecipe(json.data);
+      } catch {
+        setError("Kunde inte hämta receptet.");
+      }
     }
 
     fetchRecipe();
   }, [id]);
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
 
   if (!recipe) {
     return <main className="main">Laddar recept...</main>;

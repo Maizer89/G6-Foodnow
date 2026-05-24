@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
-import { API_URL, getImageUrl } from "../lib/api";
+import { getImageUrl } from "../lib/api";
+import { getRecipeCategories } from "../services/apiService";
 
 Categories.route = {
   path: "/categories",
@@ -11,17 +12,33 @@ Categories.route = {
 
 function Categories() {
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchCategories() {
-      const res = await fetch(`${API_URL}/api/recipe-categories?populate=*`);
-      const json = await res.json();
+      try {
+        setLoading(true);
 
-      setCategories(json.data || []);
+        const json = await getRecipeCategories();
+        setCategories(json.data || []);
+      } catch {
+        setError("Kunde inte hämta kategorier.");
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchCategories();
   }, []);
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
+  if (loading) {
+    return <div className="main">Laddar kategorier...</div>;
+  }
 
   return (
     <div>

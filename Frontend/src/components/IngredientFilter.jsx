@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { getIngredients } from "../services/apiService";
 
 export default function IngredientFilter({
   selectedIngredients,
@@ -7,20 +8,16 @@ export default function IngredientFilter({
   const [ingredients, setIngredients] = useState([]);
   const [search, setSearch] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [error, setError] = useState("");
 
   // Hämta ingredients från Strapi
   useEffect(() => {
     async function fetchIngredients() {
       try {
-        const response = await fetch(
-          "http://localhost:1337/api/ingredients?populate=ingredient_category",
-        );
-
-        const data = await response.json();
-
-        setIngredients(data.data);
-      } catch (error) {
-        console.log(error);
+        const data = await getIngredients();
+        setIngredients(data.data || []);
+      } catch {
+        setError("Kunde inte hämta ingredienser.");
       }
     }
 
@@ -100,47 +97,55 @@ export default function IngredientFilter({
             overflowY: "auto",
           }}
         >
-          {Object.entries(groupedIngredients).map(([category, ingredients]) => (
-            <div
-              key={category}
-              style={{
-                marginBottom: "18px",
-              }}
-            >
-              <h3
-                style={{
-                  fontSize: "14px",
-                  marginBottom: "8px",
-                  color: "var(--text-muted)",
-                }}
-              >
-                {category}
-              </h3>
-
-              {ingredients.map((ingredient) => (
-                <label
-                  key={ingredient.id}
+          {error ? (
+            <p className="auth-error">{error}</p>
+          ) : (
+            Object.entries(groupedIngredients).map(
+              ([category, ingredients]) => (
+                <div
+                  key={category}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    padding: "8px 0",
-                    cursor: "pointer",
+                    marginBottom: "18px",
                   }}
                 >
-                  <input
-                    type="checkbox"
-                    checked={selectedIngredients.includes(
-                      ingredient.name_singular,
-                    )}
-                    onChange={() => toggleIngredient(ingredient.name_singular)}
-                  />
+                  <h3
+                    style={{
+                      fontSize: "14px",
+                      marginBottom: "8px",
+                      color: "var(--text-muted)",
+                    }}
+                  >
+                    {category}
+                  </h3>
 
-                  {ingredient.name_singular}
-                </label>
-              ))}
-            </div>
-          ))}
+                  {ingredients.map((ingredient) => (
+                    <label
+                      key={ingredient.id}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        padding: "8px 0",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedIngredients.includes(
+                          ingredient.name_singular,
+                        )}
+                        onChange={() =>
+                          toggleIngredient(ingredient.name_singular)
+                        }
+                      />
+
+                      {ingredient.name_singular}
+                    </label>
+                  ))}
+                </div>
+              ),
+            )
+          )}
         </div>
       )}
 

@@ -4,7 +4,7 @@ import GuestFavoriteModal from "../components/GuestFavoriteModal";
 import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
 import PageHeader from "../components/PageHeader";
 import RecipeCard from "../components/RecipeCard";
-import { API_URL } from "../lib/api";
+import { getRecipes } from "../services/apiService";
 
 Recept.route = {
   path: "/",
@@ -27,12 +27,7 @@ function Recept() {
   useEffect(() => {
     async function fetchRecipes() {
       try {
-        const res = await fetch(
-          `${API_URL}/api/recipes?populate[image]=true&populate[recipe_category]=true&populate[ingredients][populate][ingredient]=true`,
-        );
-
-        const json = await res.json();
-
+        const json = await getRecipes();
         setRecipes(json.data || []);
       } catch (error) {
         console.error("Kunde inte hämta recept:", error);
