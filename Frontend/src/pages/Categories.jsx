@@ -25,12 +25,10 @@ function Categories() {
 
   return (
     <div>
-      <div className="page-header">
-        <h1 className="page-title">Kategorier</h1>
-        <p className="page-subtitle">
-          Välj en kategori för att se matchande recept.
-        </p>
-      </div>
+      <PageHeader
+        title="Kategorier"
+        subtitle="Välj en kategori för att se matchande recept."
+      />
 
       <div className="category-grid">
         {categories.map((category) => {

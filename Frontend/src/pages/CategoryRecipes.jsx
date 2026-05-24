@@ -67,10 +67,10 @@ function CategoryRecipes() {
         ← Tillbaka
       </button>
 
-      <div className="page-header">
-        <h1 className="page-title">{categoryName}</h1>
-        <p className="page-subtitle">Recept i kategorin {categoryName}.</p>
-      </div>
+      <PageHeader
+        title={categoryName}
+        subtitle={`Recept i kategorin ${categoryName}.`}
+      />
 
       <div className="recipe-count">{recipes.length} recept hittades</div>
 

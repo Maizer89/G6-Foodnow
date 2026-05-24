@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useMyRecept } from "../hooks/useMyRecept";
 import ChangePasswordModal from "../components/ChangePasswordModal";
+import PageHeader from "../components/PageHeader";
 
 ProfilePage.route = {
   path: "/profile",
@@ -127,10 +128,10 @@ function ProfilePage() {
 
   return (
     <div>
-      <div className="page-header">
-        <h1 className="page-title">Min profil</h1>
-        <p className="page-subtitle">Hantera ditt konto och dina recept.</p>
-      </div>
+      <PageHeader
+        title="Min profil"
+        subtitle="Hantera ditt konto och dina recept."
+      />
 
       {uploadError && (
         <div className="alert alert-error" role="alert">

@@ -86,10 +86,10 @@ export default function FavoritesPage() {
 
   return (
     <div className="favorites-layout">
-      <div className="page-header">
-        <h1 className="page-title">Mina Favoriter</h1>
-        <p className="page-subtitle">Dina sparade favoritrecept.</p>
-      </div>
+      <PageHeader
+        title="Mina Favoriter"
+        subtitle="Dina sparade favoritrecept."
+      />
 
       {fullFavorites.length === 0 ? (
         <p>Du har inga sparade favoriter ännu</p>
