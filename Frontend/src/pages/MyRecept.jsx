@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useMyRecept } from "../hooks/useMyRecept";
 import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
 import GuestFavoriteModal from "../components/GuestFavoriteModal";
+import { getImageUrl } from "../lib/api";
 import "../css/MyRecept.css";
 
 MyReceptPage.route = {
@@ -55,15 +56,6 @@ function MyReceptPage() {
     checkIfFavorite,
   } = useFavoriteToggle();
 
-  function getImageUrl(recipe) {
-    const img = recipe?.image;
-    if (!img) return null;
-    const url =
-      img?.url ?? img?.formats?.medium?.url ?? img?.formats?.thumbnail?.url;
-    if (!url) return null;
-    return url.startsWith("http") ? url : `${API_URL}${url}`;
-  }
-
   function getInstructionsText(recipe) {
     const instr = recipe?.instructions;
     if (!instr) return "";
@@ -108,7 +100,7 @@ function MyReceptPage() {
 
       <div className="recipe-grid">
         {recipes.map((recipe) => {
-          const imgUrl = getImageUrl(recipe);
+          const imgUrl = getImageUrl(recipe.image);
           const instrText = getInstructionsText(recipe);
           const recipeId = recipe.documentId ?? recipe.id;
 
@@ -355,7 +347,7 @@ function MyReceptPage() {
                 ) : editingRecipe?.image && !removeImage ? (
                   <div className="mr-img-preview-wrap">
                     <img
-                      src={getImageUrl(editingRecipe)}
+                      src={getImageUrl(editingRecipe.image)}
                       alt="Nuvarande bild"
                       className="mr-img-preview"
                     />
