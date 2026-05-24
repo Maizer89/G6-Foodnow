@@ -887,6 +887,10 @@ body {
   margin-bottom: 1rem;
 }
 
+.load-more-btn {
+  margin-top: 32px;
+}
+
 .recipe-detail-header {
   position: relative;
 }
@@ -899,4 +903,16 @@ body {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.ghost-btn {
+  width: 100%;
+  border: none;
+  background: transparent;
+}
+
+.modal-cancel-btn {
+  width: 100%;
+  border: none;
+  background: transparent;
 }
