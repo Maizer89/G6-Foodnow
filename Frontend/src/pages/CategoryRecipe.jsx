@@ -68,7 +68,7 @@ function CategoryRecipes() {
   }
 
   if (loading && page === 1) {
-    return <div className="main">Laddar recept...</div>;
+    return <div>Laddar recept...</div>;
   }
 
   return (

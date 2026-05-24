@@ -37,7 +37,7 @@ function Categories() {
   }
 
   if (loading) {
-    return <div className="main">Laddar kategorier...</div>;
+    return <div>Laddar kategorier...</div>;
   }
 
   return (

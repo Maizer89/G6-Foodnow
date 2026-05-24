@@ -42,7 +42,7 @@ function RecipeDetail() {
   }
 
   if (!recipe) {
-    return <main className="main">Laddar recept...</main>;
+    return <main>Laddar recept...</main>;
   }
 
   const imageUrl = getImageUrl(recipe.image);
