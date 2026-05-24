@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard";
+import Button from "../components/Button";
+import PageHeader from "../components/PageHeader";
+import { API_URL } from "../lib/api";
 
-const API_URL = "http://localhost:1337";
 const PAGE_SIZE = 20;
 
 CategoryRecipes.route = {
@@ -63,9 +65,9 @@ function CategoryRecipes() {
 
   return (
     <div>
-      <button className="primary-btn back-btn" onClick={() => navigate(-1)}>
+      <Button className="back-btn" onClick={() => navigate(-1)}>
         ← Tillbaka
-      </button>
+      </Button>
 
       <PageHeader
         title={categoryName}
@@ -81,14 +83,13 @@ function CategoryRecipes() {
       </div>
 
       {page < pageCount && (
-        <button
-          className="primary-btn"
-          style={{ marginTop: "32px" }}
+        <Button
+          className="load-more-btn"
           disabled={loading}
           onClick={() => setPage((prev) => prev + 1)}
         >
           {loading ? "Laddar..." : "Hämta fler"}
-        </button>
+        </Button>
       )}
     </div>
   );
