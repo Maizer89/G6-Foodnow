@@ -66,7 +66,7 @@ function RegisterPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button className="primary-btn">Skapa konto</button>
+          <Button type="submit">Skapa konto</Button>
         </form>
 
         <div className="auth-footer">

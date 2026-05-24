@@ -3,6 +3,8 @@ import { useMyRecept } from "../hooks/useMyRecept";
 import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
 import GuestFavoriteModal from "../components/GuestFavoriteModal";
 import { getImageUrl } from "../lib/api";
+import PageHeader from "../components/PageHeader";
+import Button from "../components/Button";
 import "../css/MyRecept.css";
 
 MyReceptPage.route = {
@@ -70,19 +72,12 @@ function MyReceptPage() {
 
   return (
     <div className="my-recept-page">
-      <div className="page-header">
-        <button
-          className="primary-btn"
-          style={{ marginBottom: "16px" }}
-          onClick={() => navigate(-1)}
-        >
-          ← Tillbaka
-        </button>
-        <h1 className="page-title">Mina Recept</h1>
-        <p className="page-subtitle">
-          {isLoading ? "Laddar..." : `${recipes.length} recept`}
-        </p>
-      </div>
+      <PageHeader
+        title="Mina Recept"
+        subtitle={isLoading ? "Laddar..." : `${recipes.length} recept`}
+      >
+        <Button onClick={() => navigate(-1)}>← Tillbaka</Button>
+      </PageHeader>
 
       {error && <p className="mr-error">{error}</p>}
 
@@ -145,24 +140,24 @@ function MyReceptPage() {
                 )}
 
                 <div className="mr-card-actions">
-                  <button
-                    className="primary-btn mr-edit-btn"
+                  <Button
+                    className="mr-edit-btn"
                     onClick={(e) => {
                       e.stopPropagation();
                       openEdit(recipe);
                     }}
                   >
                     Redigera
-                  </button>
-                  <button
-                    className="mr-delete-btn"
+                  </Button>
+                  <Button
+                    variant="danger"
                     onClick={(e) => {
                       e.stopPropagation();
                       setDeletingId(recipeId);
                     }}
                   >
                     Ta bort
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -181,14 +176,15 @@ function MyReceptPage() {
               Är du säker? Det här går inte att ångra.
             </p>
             <div className="mr-modal-actions">
-              <button
-                className="secondary-btn"
+              <Button
+                variant="secondary"
                 onClick={() => setDeletingId(null)}
                 disabled={isDeleting}
               >
                 Avbryt
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="danger"
                 className="mr-confirm-delete-btn"
                 disabled={isDeleting}
                 onClick={() => {
@@ -199,7 +195,7 @@ function MyReceptPage() {
                 }}
               >
                 {isDeleting ? "Tar bort..." : "Ja, ta bort"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -216,13 +212,13 @@ function MyReceptPage() {
           >
             <div className="mr-modal-header">
               <h2 className="mr-modal-title">Redigera recept</h2>
-              <button
-                className="mr-close-btn"
+              <Button
+                variant="secondary"
                 onClick={closeEdit}
                 disabled={isSaving}
               >
-                ✕
-              </button>
+                Avbryt
+              </Button>
             </div>
 
             {editError && <p className="mr-error">{editError}</p>}
@@ -333,8 +329,7 @@ function MyReceptPage() {
                       alt="Förhandsvisning"
                       className="mr-img-preview"
                     />
-                    <button
-                      type="button"
+                    <Button
                       className="mr-img-remove-btn"
                       onClick={() => {
                         setEditImageFile(null);
@@ -342,7 +337,7 @@ function MyReceptPage() {
                       }}
                     >
                       Avbryt
-                    </button>
+                    </Button>
                   </div>
                 ) : editingRecipe?.image && !removeImage ? (
                   <div className="mr-img-preview-wrap">
@@ -351,25 +346,26 @@ function MyReceptPage() {
                       alt="Nuvarande bild"
                       className="mr-img-preview"
                     />
-                    <button
-                      type="button"
+                    <Button
                       className="mr-img-remove-btn"
-                      onClick={() => setRemoveImage(true)}
+                      onClick={() => {
+                        setEditImageFile(null);
+                        setEditImagePreview(null);
+                      }}
                     >
-                      Ta bort bild
-                    </button>
+                      Avbryt
+                    </Button>
                   </div>
                 ) : removeImage ? (
                   <div className="mr-img-placeholder">
                     <span>Ingen bild</span>
-                    <button
-                      type="button"
-                      className="secondary-btn"
-                      style={{ marginTop: 8, fontSize: 13 }}
+                    <Button
+                      variant="secondary"
+                      className="mr-undo-btn"
                       onClick={() => setRemoveImage(false)}
                     >
                       Ångra
-                    </button>
+                    </Button>
                   </div>
                 ) : (
                   <div className="mr-img-placeholder">Ingen bild</div>
@@ -397,21 +393,16 @@ function MyReceptPage() {
               </div>
 
               <div className="mr-modal-actions">
-                <button
-                  type="button"
-                  className="secondary-btn"
+                <Button
+                  variant="secondary"
                   onClick={closeEdit}
                   disabled={isSaving}
                 >
                   Avbryt
-                </button>
-                <button
-                  type="submit"
-                  className="primary-btn"
-                  disabled={isSaving}
-                >
+                </Button>
+                <Button type="submit" disabled={isSaving}>
                   {isSaving ? "Sparar..." : "Spara ändringar"}
-                </button>
+                </Button>
               </div>
             </form>
           </div>

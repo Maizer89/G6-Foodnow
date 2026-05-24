@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useMyRecept } from "../hooks/useMyRecept";
 import ChangePasswordModal from "../components/ChangePasswordModal";
 import PageHeader from "../components/PageHeader";
+import Button from "../components/Button";
 
 ProfilePage.route = {
   path: "/profile",
@@ -216,61 +217,56 @@ function ProfilePage() {
             <span>Ändra profilbild</span>
             <div className="profile-actions">
               {user?.profilePic && (
-                <button
-                  className="secondary-btn"
+                <Button
+                  variant="secondary"
                   onClick={handleRemoveImage}
                   disabled={uploading}
                 >
                   Ta bort
-                </button>
+                </Button>
               )}
-              <button
-                className="secondary-btn"
+              <Button
+                variant="secondary"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
               >
                 {uploading ? "Laddar..." : "Ändra"}
-              </button>
+              </Button>
             </div>
           </div>
 
           <div className="settings-item">
             <span>Byt lösenord</span>
-            <button
-              className="secondary-btn"
+            <Button
+              variant="secondary"
               onClick={() => setIsPasswordModalOpen(true)}
             >
               Ändra
-            </button>
+            </Button>
           </div>
         </div>
 
         <div className="settings-card">
           <div className="settings-item">
             <span>Mina recept</span>
-            <button
-              className="secondary-btn"
-              onClick={() => navigate("/my-recept")}
-            >
+            <Button variant="secondary" onClick={() => navigate("/my-recept")}>
               Visa
-            </button>
+            </Button>
           </div>
 
           <div className="settings-item">
             <span>Skapa recept</span>
-            <button
-              className="secondary-btn"
+            <Button
+              variant="secondary"
               onClick={() => navigate("/create-recept")}
             >
               Skapa
-            </button>
+            </Button>
           </div>
 
           <div className="settings-item">
             <span>Logga ut</span>
-            <button className="primary-btn" onClick={handleLogout}>
-              Logga ut
-            </button>
+            <Button onClick={handleLogout}>Logga ut</Button>
           </div>
         </div>
       </div>

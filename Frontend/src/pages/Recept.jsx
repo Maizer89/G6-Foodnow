@@ -1,17 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import IngredientFilter from "../components/IngredientFilter";
 import GuestFavoriteModal from "../components/GuestFavoriteModal";
 import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
+import PageHeader from "../components/PageHeader";
 import RecipeCard from "../components/RecipeCard";
+import { API_URL } from "../lib/api";
 
 Recept.route = {
   path: "/",
   label: "Recept",
   index: 1,
 };
-
-const API_URL = "http://localhost:1337";
 
 function Recept() {
   const [recipes, setRecipes] = useState([]);
@@ -71,12 +70,10 @@ function Recept() {
 
   return (
     <div>
-      <div className="page-header">
-        <h1 className="page-title">Vad vill du laga?</h1>
-        <p className="page-subtitle">
-          Lägg till ingredienser och hitta recept snabbt.
-        </p>
-      </div>
+      <PageHeader
+        title="Vad vill du laga?"
+        subtitle="Lägg till ingredienser och hitta recept snabbt."
+      />
 
       <div className="search-row">
         <input

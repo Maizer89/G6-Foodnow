@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Button from "../components/Button";
 
 LoginPage.route = {
   path: "/login",
@@ -65,7 +66,7 @@ function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button className="primary-btn">Logga in</button>
+          <Button type="submit">Logga in</Button>
         </form>
 
         <div className="auth-footer">
