@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import IngredientFilter from "../components/IngredientFilter";
 import GuestFavoriteModal from "../components/GuestFavoriteModal";
 import { useFavoriteToggle } from "../hooks/useFavoriteToggle";
+import RecipeCard from "../components/RecipeCard";
 
 Recept.route = {
   path: "/",
@@ -101,40 +102,15 @@ function Recept() {
       </div>
 
       <div className="recipe-grid">
-        {filteredRecipes.map((recipe) => {
-          const imageUrl = recipe.image?.url
-            ? `${API_URL}${recipe.image.url}`
-            : "/placeholder-recipe.jpg";
-
-          return (
-            <Link
-              key={recipe.documentId || recipe.id}
-              to={`/recipes/${recipe.documentId || recipe.id}`}
-              className="recipe-card"
-            >
-              <img src={imageUrl} alt={recipe.title} />
-
-              <button
-                className={`favorite-btn ${
-                  checkIfFavorite(recipe) ? "active" : ""
-                }`}
-                type="button"
-                onClick={(e) => toggleFavorite(e, recipe)}
-              >
-                {checkIfFavorite(recipe) ? "♥" : "♡"}
-              </button>
-
-              <div className="recipe-content">
-                <h2 className="recipe-title">{recipe.title}</h2>
-
-                <div className="recipe-meta">
-                  <span>{recipe.cooking_time_minutes} min</span>
-                  <span>{recipe.ingredients?.length || 0} ingredienser</span>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+        {filteredRecipes.map((recipe) => (
+          <RecipeCard
+            key={recipe.documentId || recipe.id}
+            recipe={recipe}
+            showFavorite
+            isFavorite={checkIfFavorite(recipe)}
+            onFavoriteClick={toggleFavorite}
+          />
+        ))}
       </div>
 
       <GuestFavoriteModal
