@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { getIngredients } from "../services/apiService";
+import { useEffect, useState } from "react";
+import { getIngredientCategoriesWithIngredients } from "../services/apiService";
 
 export default function IngredientFilter({
   selectedIngredients,
@@ -14,7 +14,7 @@ export default function IngredientFilter({
   useEffect(() => {
     async function fetchIngredients() {
       try {
-        const data = await getIngredients();
+        const data = await getIngredientCategoriesWithIngredients();
         setIngredients(data.data || []);
       } catch {
         setError("Kunde inte hämta ingredienser.");
@@ -23,38 +23,6 @@ export default function IngredientFilter({
 
     fetchIngredients();
   }, []);
-
-  // Filtrera medan användaren skriver
-  const filteredIngredients = useMemo(() => {
-    return (ingredients ?? []).filter((ingredient) => {
-      const ingredientName = ingredient.name_singular?.toLowerCase() || "";
-
-      const categoryName =
-        ingredient.ingredient_category?.name?.toLowerCase() || "";
-
-      const searchValue = search.toLowerCase();
-
-      return (
-        ingredientName.includes(searchValue) ||
-        categoryName.includes(searchValue)
-      );
-    });
-  }, [ingredients, search]);
-
-  // Gruppera ingredienser efter kategori
-  const groupedIngredients = useMemo(() => {
-    return filteredIngredients.reduce((groups, ingredient) => {
-      const category = ingredient.ingredient_category?.name || "Övrigt";
-
-      if (!groups[category]) {
-        groups[category] = [];
-      }
-
-      groups[category].push(ingredient);
-
-      return groups;
-    }, {});
-  }, [filteredIngredients]);
 
   // Lägg till / ta bort ingredient
   function toggleIngredient(name) {
@@ -100,25 +68,22 @@ export default function IngredientFilter({
           {error ? (
             <p className="auth-error">{error}</p>
           ) : (
-            Object.entries(groupedIngredients).map(
-              ([category, ingredients]) => (
-                <div
-                  key={category}
-                  style={{
-                    marginBottom: "18px",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: "14px",
-                      marginBottom: "8px",
-                      color: "var(--text-muted)",
-                    }}
-                  >
-                    {category}
-                  </h3>
+            ingredients.map((category) => (
+              <div
+                key={category.documentId || category.id}
+                style={{
+                  marginBottom: "18px",
+                }}
+              >
+                <h3>{category.name}</h3>
 
-                  {ingredients.map((ingredient) => (
+                {category.ingredients
+                  .filter((ingredient) =>
+                    ingredient.name_singular
+                      ?.toLowerCase()
+                      .includes(search.toLowerCase()),
+                  )
+                  .map((ingredient) => (
                     <label
                       key={ingredient.id}
                       style={{
@@ -142,9 +107,8 @@ export default function IngredientFilter({
                       {ingredient.name_singular}
                     </label>
                   ))}
-                </div>
-              ),
-            )
+              </div>
+            ))
           )}
         </div>
       )}
