@@ -1,8 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 function getRecipeImage(fileName) {
-  return `/recipeCardImg/${fileName}`;
+  return `Backend/public/recipeCardImg/${fileName}`;
 }
+
 
 const categoriesData = [
   "Grönsaker",
@@ -1503,22 +1504,51 @@ async function seed(strapi) {
       continue;
     }
 
-    await strapi.entityService.create("api::recipe.recipe", {
+    // =====================
+    // UPLOAD RECIPE IMAGE
+    // =====================
+
+    const uploadedImage = await uploadImage(
+      strapi,
+      recipe.imageUrl,
+    );
+   // =====================
+  // CREATE RECIPE
+  // =====================
+
+  await strapi.entityService.create(
+    "api::recipe.recipe",
+    {
       data: {
         title: recipe.title,
-        description: recipe.description,
 
-        cooking_time_minutes: recipe.cooking_time_minutes,
+        description:
+          recipe.description,
 
-        instructions: recipe.instructions,
+        cooking_time_minutes:
+          recipe.cooking_time_minutes,
 
-        ingredients: formattedIngredients,
+        instructions:
+          recipe.instructions,
 
-        recipe_category: recipeCategoryMap[recipe.category],
+        ingredients:
+          formattedIngredients,
 
-        publishedAt: new Date(),
+        // CATEGORY RELATION
+        recipe_category:
+          recipeCategoryMap[
+            recipe.category
+          ],
+
+        // IMAGE RELATION
+        image:
+          uploadedImage?.id || null,
+
+        publishedAt:
+          new Date(),
       },
-    });
+    },
+  );
   }
 }
 
