@@ -40,3 +40,7 @@ export function getRecipesByCategory(slug, page = 1, pageSize = 20) {
 export function getCategoryBySlug(slug) {
   return request(`/api/recipe-categories?filters[slug][$eq]=${slug}`);
 }
+
+export function getIngredientCategoriesWithIngredients() {
+  return request("/api/ingredient-categories/with-ingredients");
+}
