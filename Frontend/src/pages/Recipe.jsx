@@ -12,6 +12,8 @@ Recept.route = {
   index: 1,
 };
 
+const API_URL = "http://localhost:1337";
+
 function Recept() {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
@@ -24,10 +26,16 @@ function Recept() {
 
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  useEffect(() => {
+    useEffect(() => {
     async function fetchRecipes() {
       try {
-        const json = await getRecipes();
+        const res = await fetch(
+          `${API_URL}/api/recipes?populate[image]=true&populate[recipe_category]=true&populate[ingredients][populate][ingredient]=true`,
+        );
+
+        const json = await res.json();
+        console.log("Strapi recipes:", json);
+
         setRecipes(json.data || []);
       } catch (error) {
         console.error("Kunde inte hämta recept:", error);
