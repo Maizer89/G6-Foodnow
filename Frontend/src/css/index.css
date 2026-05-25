@@ -652,7 +652,7 @@ body {
     justify-content: space-around;
   }
 
-  .sidebar > div:first-child {
+  .sidebar>div:first-child {
     flex: 1;
   }
 
@@ -677,6 +677,36 @@ body {
 
   .profile-stats {
     gap: 32px;
+  }
+}
+
+/* ── Recipe Detail – Favourite Button ─────────────────────── */
+
+/* Make the page-header a positioning context */
+.recipe-detail .page-header {
+  position: relative;
+  padding-right: 56px; /* room for the button so title doesn't overlap */
+}
+
+.recipe-detail-favorite-btn {
+  position: absolute;
+  top: 4px;
+  right: 0;
+
+  /* Ensure a comfortable tap target on mobile */
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* On small screens keep the button reachable */
+@media (max-width: 600px) {
+  .recipe-detail .page-header {
+    padding-right: 52px;
+  }
+
+  .recipe-detail-favorite-btn {
+    top: 2px;
+    right: 0;
   }
 }
 
