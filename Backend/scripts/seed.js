@@ -728,7 +728,7 @@ const recipesData = [
     cooking_time_minutes: 25,
     category: "Vegetariskt",
     imageUrl:
-      getRecipeImage("riswok.jpg"),
+      "riswok.jpg",
 
     instructions: [
       {
@@ -769,7 +769,7 @@ const recipesData = [
     cooking_time_minutes: 30,
     category: "Kyckling",
     imageUrl:
-      getRecipeImage("pastaalfredo.jpg"),
+      "pastaalfredo.jpg",
 
     instructions: [
       {
@@ -815,7 +815,7 @@ const recipesData = [
     cooking_time_minutes: 25,
     category: "Veganskt",
     imageUrl:
-      getRecipeImage("curry.jpg"),
+      "curry.jpg",
 
     instructions: [
       {
@@ -855,7 +855,7 @@ const recipesData = [
     cooking_time_minutes: 35,
     category: "Fisk",
     imageUrl:
-      getRecipeImage("lax.jpg"),
+      "lax.jpg",
 
     instructions: [
       {
@@ -896,7 +896,7 @@ const recipesData = [
     cooking_time_minutes: 20,
     category: "Kött",
     imageUrl:
-      getRecipeImage("tacowraps.jpg"),
+      "tacowraps.jpg",
 
     instructions: [
       {
@@ -936,7 +936,7 @@ const recipesData = [
     cooking_time_minutes: 25,
     category: "Skaldjur",
     imageUrl:
-      getRecipeImage("rakpasta.jpg"),
+      "rakpasta.jpg",
 
     instructions: [
       {
@@ -976,7 +976,7 @@ const recipesData = [
     cooking_time_minutes: 15,
     category: "Bak & dessert",
     imageUrl:
-      getRecipeImage("bananpannkakor.jpg"),
+      "bananpannkakor.jpg",
 
     instructions: [
       {
@@ -1011,7 +1011,7 @@ const recipesData = [
     cooking_time_minutes: 5,
     category: "Dryck",
     imageUrl:
-      getRecipeImage("hallonsmoothie.jpg"),
+      "hallonsmoothie.jpg",
 
     instructions: [
       {
@@ -1047,7 +1047,7 @@ const recipesData = [
     cooking_time_minutes: 25,
     category: "Kyckling",
     imageUrl:
-      getRecipeImage("kycklingwok.jpg"),
+      "kycklingwok.jpg",
 
     instructions: [
       {
@@ -1087,7 +1087,7 @@ const recipesData = [
     cooking_time_minutes: 15,
     category: "Vegetariskt",
     imageUrl:
-      getRecipeImage("pestapasta.jpg"),
+      "pestapasta.jpg",
 
     instructions: [
       {
@@ -1128,7 +1128,7 @@ const recipesData = [
     cooking_time_minutes: 40,
     category: "Kött",
     imageUrl:
-      getRecipeImage("kottbullarmedris.jpg"),
+      "kottbullarmedris.jpg",
 
     instructions: [
       {
@@ -1164,7 +1164,7 @@ const recipesData = [
     cooking_time_minutes: 30,
     category: "Fisk",
     imageUrl:
-      getRecipeImage("fiskgryta.jpg"),
+      "fiskgryta.jpg",
 
     instructions: [
       {
@@ -1200,7 +1200,7 @@ const recipesData = [
     cooking_time_minutes: 20,
     category: "Veganskt",
     imageUrl:
-      getRecipeImage("vegobowl.jpg"),
+      "vegobowl.jpg",
 
     instructions: [
       {
@@ -1236,7 +1236,7 @@ const recipesData = [
     cooking_time_minutes: 10,
     category: "Vegetariskt",
     imageUrl:
-      getRecipeImage("mozarellatoast.jpg"),
+      "mozarellatoast.jpg",
 
     instructions: [
       {
