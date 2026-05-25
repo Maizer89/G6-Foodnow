@@ -25,6 +25,9 @@ function CreateRecept() {
     fileInputRef,
     ingredientsList,
     selectedIngredients,
+    categoriesList,
+    selectedCategory,
+    setSelectedCategory,
     error,
     setError,
     success,
@@ -76,6 +79,26 @@ function CreateRecept() {
           onChange={(e) => setCookingTime(e.target.value)}
           required
         />
+
+        <div className="form-group">
+          <label className="form-label">Kategori:</label>
+          <select
+            className="form-input form-select"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            required
+          >
+            <option value="">-- Välj kategori --</option>
+            {categoriesList.map((cat) => (
+              <option
+                key={cat.documentId ?? cat.id}
+                value={cat.documentId ?? cat.id}
+              >
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div className="file-upload-row">
           <label className="file-upload-label">

@@ -28,6 +28,9 @@ export function useCreateRecept() {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,13 +38,21 @@ export function useCreateRecept() {
   const [imagePreviewUrls, setImagePreviewUrls] = useState([]);
 
   useEffect(() => {
-    async function fetchIngredients() {
+    async function fetchInitialData() {
       try {
-        const response = await fetch(`${API_URL}/api/ingredients`);
-        if (!response.ok) throw new Error("Kunde inte hämta ingredienser");
+        const [ingRes, catRes] = await Promise.all([
+          fetch(`${API_URL}/api/ingredients`),
+          fetch(`${API_URL}/api/recipe-categories`),
+        ]);
 
-        const result = await response.json();
-        setIngredientsList(Array.isArray(result.data) ? result.data : []);
+        if (!ingRes.ok) throw new Error("Kunde inte hämta ingredienser");
+        if (!catRes.ok) throw new Error("Kunde inte hämta kategorier");
+
+        const ingData = await ingRes.json();
+        const catData = await catRes.json();
+
+        setIngredientsList(Array.isArray(ingData.data) ? ingData.data : []);
+        setCategoriesList(Array.isArray(catData.data) ? catData.data : []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -49,7 +60,7 @@ export function useCreateRecept() {
       }
     }
 
-    fetchIngredients();
+    fetchInitialData();
   }, []);
 
   useEffect(() => {
@@ -118,6 +129,11 @@ export function useCreateRecept() {
       return;
     }
 
+    if (!selectedCategory) {
+      setError("Du måste välja en kategori.");
+      return;
+    }
+
     if (selectedIngredients.length === 0) {
       setError("Du måste välja minst en ingrediens.");
       return;
@@ -175,7 +191,7 @@ export function useCreateRecept() {
         ],
         cooking_time_minutes: parsedCookingTime,
         ingredients: selectedIngredients.map(id => ({ ingredient: id })),
-
+        recipe_category: selectedCategory,
       };
 
       const response = await fetch(`${API_URL}/api/recipes`, {
@@ -225,6 +241,7 @@ export function useCreateRecept() {
       setCookingTime("");
       setImages([]);
       setSelectedIngredients([]);
+      setSelectedCategory("");
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -242,6 +259,8 @@ export function useCreateRecept() {
     fileInputRef,
     ingredientsList,
     selectedIngredients,
+    categoriesList,
+    selectedCategory, setSelectedCategory,
     error, setError,
     success,
     isLoading,
