@@ -1381,7 +1381,17 @@ async function seed(strapi) {
     if (existingIngredients.length > 0) {
       ingredientId = existingIngredients[0].id;
 
-      console.log(`Ingrediens finns redan: ${ingredient.name_singular}`);
+      await strapi.entityService.update(
+        "api::ingredient.ingredient",
+        ingredientId,
+        {
+          data: {
+            ingredient_category: categoryMap[ingredient.category],
+          },
+        },
+      );
+
+      console.log(`Ingrediens uppdaterad: ${ingredient.name_singular}`);
     } else {
       const createdIngredient = await strapi.entityService.create(
         "api::ingredient.ingredient",
