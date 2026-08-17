@@ -1,9 +1,18 @@
 "use strict";
 
 /**
- * recipe-category router
+ * Flora custom router
  */
 
-const { createCoreRouter } = require("@strapi/strapi").factories;
-
-module.exports = createCoreRouter("api::recipe-category.recipe-category");
+module.exports = {
+  routes: [
+    {
+      method: "GET",
+      path: "/recipe-categories/:slug/recipes",
+      handler: "recipe-category.recipes",
+      config: {
+        auth: false,
+      },
+    },
+  ],
+};
